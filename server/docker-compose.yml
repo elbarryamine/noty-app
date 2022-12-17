@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  notifiedb:
+    image: mysql
+    env_file: ./.env
+    restart: always
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_ROOT_USER=$MYSQL_USER
+      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+    ports:
+      - 3036:3306
+    networks:
+      - notifie
+networks:
+  notifie:
