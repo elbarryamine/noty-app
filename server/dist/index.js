@@ -2,14 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const trpcExpress = require("@trpc/server/adapters/express");
-const trpc_1 = require("./trpc");
-const trpc_2 = require("./trpc");
 const cors = require("cors");
+const router_1 = require("./trpc/router");
+require('dotenv').config();
 const app = express();
 app.use(cors({ origin: '*' }));
-app.use('/trpc', trpcExpress.createExpressMiddleware({
-    router: trpc_2.appRouter,
-    createContext: trpc_1.createContext,
+app.use('/api/trpc', trpcExpress.createExpressMiddleware({
+    router: router_1.appRouter,
+    createContext: () => ({}),
 }));
-app.listen(8080, '', () => console.log('listen at port 8080'));
+const PORT = Number(process.env.PORT) || 8080;
+app.listen(PORT, '', () => console.log(`listen at port ${PORT}`));
 //# sourceMappingURL=index.js.map

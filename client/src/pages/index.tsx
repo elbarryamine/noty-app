@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { trpc } from '../utils/trpc';
 
 export default function Home() {
-  const hi = trpc.notes.useQuery()
+  const hi = trpc.note.useQuery();
   return (
     <>
       <Head>
@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
       <main>
         {hi.isLoading && <>loading</>}
-        {hi.data && <>{hi.data}</>}
+        {hi.data && <>{hi.data.note}</>}
       </main>
     </>
   );

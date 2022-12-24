@@ -1,16 +1,32 @@
 version: '3.8'
 services:
-  notifiedb:
+  mysqldb:
     image: mysql
     env_file: ./.env
-    restart: always
+    restart: unless-stopped
     environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_ROOT_USER=$MYSQL_ROOT_USER
       - MYSQL_DATABASE=$MYSQL_DATABASE
-      - MYSQL_ROOT_USER=$MYSQL_USER
-      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_HOST=$MYSQL_HOST
     ports:
-      - 3036:3306
+      - $MYSQL_PORT:$MYSQL_PORT
     networks:
       - notifie
+  app:
+    depends_on:
+      - mysqldb
+    build: ./
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $PORT:$PORT
+    environment:
+      - DATABASE_URL=$DATABASE_URL
+    stdin_open: true
+    tty: true
+
 networks:
   notifie:

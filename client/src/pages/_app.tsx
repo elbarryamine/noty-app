@@ -1,13 +1,13 @@
 import type { AppProps } from 'next/app';
 import AuthProvider from '../providers/AuthProvider';
-import TrpcProvider from '../providers/TrpcProvider';
+import { trpc } from '../utils/trpc';
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <TrpcProvider>
-      <AuthProvider>
-        <Component {...pageProps} />
-      </AuthProvider>
-    </TrpcProvider>
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
   );
-}
+};
+
+export default trpc.withTRPC(App);

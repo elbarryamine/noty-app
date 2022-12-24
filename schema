@@ -28,8 +28,7 @@ model Note {
   isTrashed Boolean @default(false)
 
   image String?
-  notifyAt DateTime?
-
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
