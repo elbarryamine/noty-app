@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import * as cors from 'cors';
-import { appRouter } from './trpc/router';
+import { appRouter } from './routers/router';
 
 require('dotenv').config();
 

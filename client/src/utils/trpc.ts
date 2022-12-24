@@ -1,6 +1,6 @@
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
-import type { AppRouter } from '../../../server/src/trpc/router';
+import type { AppRouter } from '../../../server/src/routers/router';
 
 export const trpc = createTRPCNext<AppRouter>({
   config({ ctx }) {

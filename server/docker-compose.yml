@@ -1,23 +1,20 @@
 version: '3.8'
 services:
-  mysqldb:
-    image: mysql
-    env_file: ./.env
+  dev_db:
+    image: mysql/mysql-server
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
-      - MYSQL_ROOT_USER=$MYSQL_ROOT_USER
-      - MYSQL_DATABASE=$MYSQL_DATABASE
-      - MYSQL_USER=$MYSQL_USER
-      - MYSQL_PASSWORD=$MYSQL_PASSWORD
-      - MYSQL_HOST=$MYSQL_HOST
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: noty_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123456
     ports:
-      - $MYSQL_PORT:$MYSQL_PORT
+      - 3306:3306
     networks:
-      - notifie
+      - noty
   app:
     depends_on:
-      - mysqldb
+      - dev_db
     build: ./
     restart: unless-stopped
     env_file: ./.env
@@ -27,6 +24,7 @@ services:
       - DATABASE_URL=$DATABASE_URL
     stdin_open: true
     tty: true
-
+    networks:
+      - noty
 networks:
-  notifie:
+  noty:

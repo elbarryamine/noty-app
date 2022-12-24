@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const trpcExpress = require("@trpc/server/adapters/express");
 const cors = require("cors");
-const router_1 = require("./trpc/router");
+const router_1 = require("./routers/router");
 require('dotenv').config();
 const app = express();
 app.use(cors({ origin: '*' }));

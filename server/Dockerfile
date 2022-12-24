@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /noteapp
+WORKDIR /noty
 
 COPY package.json ./
 
