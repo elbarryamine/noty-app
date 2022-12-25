@@ -1,4 +1,4 @@
-import { procedure, router } from '../../config/trpc';
+import trpc from '../../config/trpc';
 import { PrismaClient } from '@prisma/client';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
@@ -25,8 +25,8 @@ const loginInput = z.object({
   password: z.string(),
 });
 
-export const userRouter = router({
-  login: procedure.input(loginInput).mutation(async ({ input }): Promise<{ token: string }> => {
+export const userRouter = trpc.router({
+  login: trpc.procedure.input(loginInput).mutation(async ({ input }): Promise<{ token: string }> => {
     try {
       // find user by email
       const user = await prisma.user.findFirst({ where: { email: input.email } });
@@ -45,7 +45,7 @@ export const userRouter = router({
       });
     }
   }),
-  sigunp: procedure.input(signupInput).mutation(async ({ input }) => {
+  sigunp: trpc.procedure.input(signupInput).mutation(async ({ input }) => {
     try {
       const user = await prisma.user.findFirst({ where: { email: input.email } });
       if (user) throw new TRPCError({ message: 'user with this email already exist', code: 'INTERNAL_SERVER_ERROR' });

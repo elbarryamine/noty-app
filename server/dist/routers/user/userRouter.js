@@ -24,8 +24,8 @@ const loginInput = zod_1.default.object({
     email: zod_1.default.string().email('Please provide a valid email'),
     password: zod_1.default.string(),
 });
-exports.userRouter = (0, trpc_1.router)({
-    login: trpc_1.procedure.input(loginInput).mutation(async ({ input }) => {
+exports.userRouter = trpc_1.default.router({
+    login: trpc_1.default.procedure.input(loginInput).mutation(async ({ input }) => {
         var _a, _b;
         try {
             const user = await prisma.user.findFirst({ where: { email: input.email } });
@@ -44,7 +44,7 @@ exports.userRouter = (0, trpc_1.router)({
             });
         }
     }),
-    sigunp: trpc_1.procedure.input(signupInput).mutation(async ({ input }) => {
+    sigunp: trpc_1.default.procedure.input(signupInput).mutation(async ({ input }) => {
         var _a, _b;
         try {
             const user = await prisma.user.findFirst({ where: { email: input.email } });

@@ -1,8 +1,8 @@
+import trpc from '../config/trpc';
 import { noteRouter } from './note/noteRouter';
 import { userRouter } from './user/userRouter';
-import { router } from '../config/trpc';
 
-export const appRouter = router({
+export const appRouter = trpc.router({
   note: noteRouter,
   user: userRouter,
 });

@@ -1,9 +1,10 @@
 import React from 'react';
-import { trpc } from '@utils/trpc';
+import { trpc } from '@shared/utils/trpc';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import z from 'zod';
+import { useUserStore } from '@store/user';
 
 const userInput = z.object({
   email: z.string().email('Please provide a valid email'),
@@ -13,10 +14,11 @@ const userInput = z.object({
 type User = typeof userInput._type;
 
 const LoginForm = () => {
+  const setToken = useUserStore((state) => state.setToken);
   const { mutate, isLoading, error } = trpc.user.login.useMutation({
-    // onSuccess: (data) => {
-    //   console.log(data.token)
-    // }
+    onSuccess: (data) => {
+      setToken(data.token);
+    },
   });
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(userInput),

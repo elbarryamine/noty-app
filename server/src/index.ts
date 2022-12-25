@@ -2,8 +2,10 @@ import * as express from 'express';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import * as cors from 'cors';
 import { appRouter } from './routers/router';
+import * as dotenv from 'dotenv';
+import { createContext } from './config/trpc';
 
-require('dotenv').config();
+dotenv.config();
 
 const app = express();
 app.use(cors({ origin: '*' }));
@@ -12,8 +14,8 @@ app.use(
   '/api/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
-    createContext: () => ({}),
-  })
+    createContext,
+  }),
 );
 
 const PORT = Number(process.env.PORT) || 8080;

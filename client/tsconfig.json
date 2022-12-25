@@ -24,10 +24,10 @@
       "@pages": ["src/pages"],
       "@shared/*": ["src/shared/*"],
       "@shared": ["src/shared"],
+      "@store/*": ["src/store/*"],
+      "@store": ["src/store"],
       "@styles/*": ["src/styles/*"],
-      "@styles": ["src/styles"],
-      "@utils/*": ["src/utils/*"],
-      "@utils": ["src/utils"]
+      "@styles": ["src/styles"]
     },
     "incremental": true
   },
