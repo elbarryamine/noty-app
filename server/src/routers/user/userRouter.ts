@@ -2,10 +2,12 @@ import { procedure, router } from '../../config/trpc';
 import { PrismaClient } from '@prisma/client';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-const userInput = z.object({
+const signupInput = z.object({
   email: z.string().email('Please provide a valid email'),
   firstName: z
     .string()
@@ -18,21 +20,42 @@ const userInput = z.object({
   password: z.string(),
 });
 
+const loginInput = z.object({
+  email: z.string().email('Please provide a valid email'),
+  password: z.string(),
+});
+
 export const userRouter = router({
-  login: procedure.query(async () => {
-    const users = await prisma.user.findMany();
-    return users;
+  login: procedure.input(loginInput).mutation(async ({ input }): Promise<{ token: string }> => {
+    try {
+      // find user by email
+      const user = await prisma.user.findFirst({ where: { email: input.email } });
+      if (!user) throw new TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
+      // check pass match
+      const matchPass = await bcrypt.compare(input.password, user.password);
+      if (!matchPass) throw new TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
+
+      // return token we should refresh token later
+      const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      return { token: accessToken };
+    } catch (error) {
+      throw new TRPCError({
+        code: error.code ?? 'INTERNAL_SERVER_ERROR',
+        message: error.message ?? 'could not save the user',
+      });
+    }
   }),
-  sigunp: procedure.input(userInput).mutation(async ({ input }) => {
+  sigunp: procedure.input(signupInput).mutation(async ({ input }) => {
     try {
       const user = await prisma.user.findFirst({ where: { email: input.email } });
       if (user) throw new TRPCError({ message: 'user with this email already exist', code: 'INTERNAL_SERVER_ERROR' });
+      const hashedPassword = await bcrypt.hash(input.password, 10);
       await prisma.user.create({
         data: {
           email: input.email,
           firstName: input.firstName,
           lastName: input.lastName,
-          password: input.password,
+          password: hashedPassword,
         },
       });
     } catch (error) {
