@@ -49,7 +49,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
         errorShape: never;
         transformer: import("@trpc/server").DataTransformerOptions;
     }>, {
-        get: import("@trpc/server").BuildProcedure<"query", {
+        login: import("@trpc/server").BuildProcedure<"query", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: object;
                 meta: object;
@@ -63,7 +63,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_out: typeof import("@trpc/server").unsetMarker;
             _meta: object;
         }, import(".prisma/client").User[]>;
-        create: import("@trpc/server").BuildProcedure<"mutation", {
+        sigunp: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: object;
                 meta: object;
@@ -77,14 +77,12 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
                 firstName?: string;
                 lastName?: string;
                 password?: string;
-                passwordConfirm?: string;
             };
             _input_out: {
                 email?: string;
                 firstName?: string;
                 lastName?: string;
                 password?: string;
-                passwordConfirm?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;

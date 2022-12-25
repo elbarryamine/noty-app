@@ -1,12 +1,12 @@
 import React from 'react';
-import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
-const LoginPage = () => {
+const SignupPage = () => {
   return (
     <main className='bg-gray-50 min-h-screen flex items-center justify-center'>
-      <LoginForm />
+      <SignupForm />
     </main>
   );
 };
 
-export default LoginPage;
+export default SignupPage;

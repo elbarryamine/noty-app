@@ -1,19 +1,19 @@
 import Head from 'next/head';
 import React from 'react';
-import LoginPage from '@layouts/login';
+import SignupPage from '@layouts/signup';
 
-const Login = () => {
+const Signup = () => {
   return (
     <>
       <Head>
-        <title>Login Page</title>
-        <meta name='description' content='login page' />
+        <title>Signup Page</title>
+        <meta name='description' content='signup page' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <LoginPage />
+      <SignupPage />
     </>
   );
 };
 
-export default Login;
+export default Signup;
