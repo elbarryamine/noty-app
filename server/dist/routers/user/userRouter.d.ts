@@ -1,6 +1,6 @@
 export declare const userRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: {
-        id: number;
+        id?: number;
     };
     meta: object;
     errorShape: never;
@@ -9,7 +9,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
     login: import("@trpc/server").BuildProcedure<"mutation", {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id: number;
+                id?: number;
             };
             meta: object;
             errorShape: never;
@@ -17,7 +17,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
         }>;
         _meta: object;
         _ctx_out: {
-            id: number;
+            id?: number;
         };
         _input_in: {
             email?: string;
@@ -35,7 +35,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
     sigunp: import("@trpc/server").BuildProcedure<"mutation", {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id: number;
+                id?: number;
             };
             meta: object;
             errorShape: never;
@@ -43,7 +43,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
         }>;
         _meta: object;
         _ctx_out: {
-            id: number;
+            id?: number;
         };
         _input_in: {
             email?: string;

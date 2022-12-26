@@ -1,9 +1,7 @@
 import Head from 'next/head';
 import HomePage from '@layouts/home';
-import { trpc } from '../shared/utils/trpc';
 
 export default function Home() {
-  const hi = trpc.note.get.useQuery();
   return (
     <>
       <Head>

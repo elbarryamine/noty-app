@@ -1,17 +1,25 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 
 import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import * as jwt from 'jsonwebtoken';
 
 export async function createContext({ req }: trpcNext.CreateNextContextOptions) {
-  const token = (req?.headers?.authorization ?? '').split(' ')[1];
-  console.log(token);
-  if (token) {
-    const userDecoded = jwt.verify(token, process.env.JWT_SECRET) as { id: number };
-    return { id: userDecoded.id };
+  try {
+    const secret = process.env.JWT_SECRET as jwt.Secret;
+    const token: string = (req?.headers?.authorization ?? '').split(' ')[1];
+
+    if (token) {
+      const decoded = jwt.verify(token, secret) as { id?: number };
+      return decoded && decoded.id ? decoded : null;
+    }
+    return null;
+  } catch {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'invalid authorization header',
+    });
   }
-  return { id: null };
 }
 
 type Context = inferAsyncReturnType<typeof createContext>;

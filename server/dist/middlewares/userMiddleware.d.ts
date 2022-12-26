@@ -1,14 +1,14 @@
 export declare const isUser: import("@trpc/server").MiddlewareFunction<{
     _config: import("@trpc/server").RootConfig<{
         ctx: {
-            id: number;
+            id?: number;
         };
         meta: object;
         errorShape: never;
         transformer: import("@trpc/server").DataTransformerOptions;
     }>;
     _ctx_out: {
-        id: number;
+        id?: number;
     };
     _input_out: unknown;
     _input_in: unknown;
@@ -18,7 +18,7 @@ export declare const isUser: import("@trpc/server").MiddlewareFunction<{
 }, {
     _config: import("@trpc/server").RootConfig<{
         ctx: {
-            id: number;
+            id?: number;
         };
         meta: object;
         errorShape: never;

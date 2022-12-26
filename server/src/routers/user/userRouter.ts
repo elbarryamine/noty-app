@@ -36,12 +36,13 @@ export const userRouter = trpc.router({
       if (!matchPass) throw new TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
 
       // return token we should refresh token later
-      const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET as jwt.Secret);
       return { token: accessToken };
     } catch (error) {
       throw new TRPCError({
-        code: error.code ?? 'INTERNAL_SERVER_ERROR',
-        message: error.message ?? 'could not save the user',
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'could not save the user',
+        cause: error,
       });
     }
   }),
@@ -60,8 +61,9 @@ export const userRouter = trpc.router({
       });
     } catch (error) {
       throw new TRPCError({
-        code: error.code ?? 'INTERNAL_SERVER_ERROR',
-        message: error.message ?? 'could not save the user',
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'could not save the user',
+        cause: error,
       });
     }
   }),

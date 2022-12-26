@@ -1,6 +1,9 @@
 import type { AppProps } from 'next/app';
 import AuthProvider from '@shared/providers/AuthProvider';
 import { trpc } from '../shared/utils/trpc';
+import '@styles/tailwind.typography.css';
+import '@styles/tailwind.button.css';
+import '@styles/tailwind.form.css';
 import '@styles/tailwind.css';
 import '@styles/loader.css';
 import { useEffect, useState } from 'react';
@@ -23,7 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         links: [
           httpBatchLink({
             url: `http://localhost:8080/api/trpc`,
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: token ? `Bearer ${token}` : '' },
           }),
         ],
       })

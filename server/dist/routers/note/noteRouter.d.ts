@@ -1,6 +1,6 @@
 export declare const noteRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: {
-        id: number;
+        id?: number;
     };
     meta: object;
     errorShape: never;
@@ -9,7 +9,7 @@ export declare const noteRouter: import("@trpc/server").CreateRouterInner<import
     get: import("@trpc/server").BuildProcedure<"query", {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id: number;
+                id?: number;
             };
             meta: object;
             errorShape: never;
@@ -17,7 +17,7 @@ export declare const noteRouter: import("@trpc/server").CreateRouterInner<import
         }>;
         _meta: object;
         _ctx_out: import("@trpc/server").Overwrite<{
-            id: number;
+            id?: number;
         }, {
             id: number;
             user: import(".prisma/client").User;
@@ -30,7 +30,7 @@ export declare const noteRouter: import("@trpc/server").CreateRouterInner<import
     create: import("@trpc/server").BuildProcedure<"mutation", {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id: number;
+                id?: number;
             };
             meta: object;
             errorShape: never;
@@ -38,7 +38,7 @@ export declare const noteRouter: import("@trpc/server").CreateRouterInner<import
         }>;
         _meta: object;
         _ctx_out: import("@trpc/server").Overwrite<{
-            id: number;
+            id?: number;
         }, {
             id: number;
             user: import(".prisma/client").User;

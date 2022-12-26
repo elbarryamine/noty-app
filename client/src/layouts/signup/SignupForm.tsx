@@ -42,7 +42,7 @@ const LoginForm = () => {
   };
   return (
     <form className='space-y-5 mx-auto flex-1 max-w-xl p-10 bg-slate-50 shadow-md rounded-md border-gray-200 border-[1px]'>
-      <h1 className='text-2xl text-center'>Noty</h1>
+      <h1 className='primary-header-display text-center'>Noty</h1>
       <div className='space-y-2'>
         <Controller
           control={control}
@@ -152,7 +152,7 @@ const LoginForm = () => {
         />
       </div>
       <div className='error-message'>{error?.message}</div>
-      <button className='btn' onClick={handleSubmit(handleSignup)}>
+      <button className='primary-button' onClick={handleSubmit(handleSignup)}>
         {isLoading ? <span className='loader'></span> : 'Signup'}
       </button>
       <div>

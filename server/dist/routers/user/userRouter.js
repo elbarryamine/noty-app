@@ -26,7 +26,6 @@ const loginInput = zod_1.default.object({
 });
 exports.userRouter = trpc_1.default.router({
     login: trpc_1.default.procedure.input(loginInput).mutation(async ({ input }) => {
-        var _a, _b;
         try {
             const user = await prisma.user.findFirst({ where: { email: input.email } });
             if (!user)
@@ -39,13 +38,13 @@ exports.userRouter = trpc_1.default.router({
         }
         catch (error) {
             throw new server_1.TRPCError({
-                code: (_a = error.code) !== null && _a !== void 0 ? _a : 'INTERNAL_SERVER_ERROR',
-                message: (_b = error.message) !== null && _b !== void 0 ? _b : 'could not save the user',
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'could not save the user',
+                cause: error,
             });
         }
     }),
     sigunp: trpc_1.default.procedure.input(signupInput).mutation(async ({ input }) => {
-        var _a, _b;
         try {
             const user = await prisma.user.findFirst({ where: { email: input.email } });
             if (user)
@@ -62,8 +61,9 @@ exports.userRouter = trpc_1.default.router({
         }
         catch (error) {
             throw new server_1.TRPCError({
-                code: (_a = error.code) !== null && _a !== void 0 ? _a : 'INTERNAL_SERVER_ERROR',
-                message: (_b = error.message) !== null && _b !== void 0 ? _b : 'could not save the user',
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'could not save the user',
+                cause: error,
             });
         }
     }),

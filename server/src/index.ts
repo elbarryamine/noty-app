@@ -19,4 +19,5 @@ app.use(
 );
 
 const PORT = Number(process.env.PORT) || 8080;
+// eslint-disable-next-line no-console
 app.listen(PORT, '', () => console.log(`listen at port ${PORT}`));
