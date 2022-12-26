@@ -1,11 +1,15 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 export declare function createContext({ req }: trpcNext.CreateNextContextOptions): Promise<{
-    id?: number;
+    user: {
+        id: number;
+    };
 }>;
 declare const trpc: {
     _config: import("@trpc/server").RootConfig<{
         ctx: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         meta: object;
         errorShape: never;
@@ -14,14 +18,18 @@ declare const trpc: {
     procedure: import("@trpc/server").ProcedureBuilder<{
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id?: number;
+                user: {
+                    id: number;
+                };
             };
             meta: object;
             errorShape: never;
             transformer: import("@trpc/server").DataTransformerOptions;
         }>;
         _ctx_out: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         _input_in: typeof import("@trpc/server").unsetMarker;
         _input_out: typeof import("@trpc/server").unsetMarker;
@@ -32,14 +40,18 @@ declare const trpc: {
     middleware: <TNewParams extends import("@trpc/server").ProcedureParams<import("@trpc/server").AnyRootConfig, unknown, unknown, unknown, unknown, unknown, unknown>>(fn: import("@trpc/server").MiddlewareFunction<{
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id?: number;
+                user: {
+                    id: number;
+                };
             };
             meta: object;
             errorShape: never;
             transformer: import("@trpc/server").DataTransformerOptions;
         }>;
         _ctx_out: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         _input_out: unknown;
         _input_in: unknown;
@@ -49,14 +61,18 @@ declare const trpc: {
     }, TNewParams>) => import("@trpc/server").MiddlewareFunction<{
         _config: import("@trpc/server").RootConfig<{
             ctx: {
-                id?: number;
+                user: {
+                    id: number;
+                };
             };
             meta: object;
             errorShape: never;
             transformer: import("@trpc/server").DataTransformerOptions;
         }>;
         _ctx_out: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         _input_out: unknown;
         _input_in: unknown;
@@ -66,7 +82,9 @@ declare const trpc: {
     }, TNewParams>;
     router: <TProcRouterRecord extends import("@trpc/server").ProcedureRouterRecord>(procedures: TProcRouterRecord) => import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         meta: object;
         errorShape: never;

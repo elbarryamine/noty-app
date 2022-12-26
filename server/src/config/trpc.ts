@@ -10,10 +10,10 @@ export async function createContext({ req }: trpcNext.CreateNextContextOptions) 
     const token: string = (req?.headers?.authorization ?? '').split(' ')[1];
 
     if (token) {
-      const decoded = jwt.verify(token, secret) as { id?: number };
-      return decoded && decoded.id ? decoded : null;
+      const decoded = jwt.verify(token, secret) as { id: number };
+      return { user: decoded && decoded.id ? { id: decoded.id } : null };
     }
-    return null;
+    return { user: null };
   } catch {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',

@@ -10,18 +10,21 @@ const prisma = new client_1.PrismaClient();
 const noteInput = zod_1.default.object({
     name: zod_1.default.string(),
 });
+const noteDeleteInput = zod_1.default.object({
+    id: zod_1.default.number(),
+});
 const withUserProcedure = trpc_1.default.procedure.use(userMiddleware_1.isUser);
 exports.noteRouter = trpc_1.default.router({
     get: withUserProcedure.query(async ({ ctx }) => {
         try {
-            const notes = await prisma.note.findMany({ where: { userId: ctx.user.id } });
+            const notes = await prisma.note.findMany({ where: { AND: { userId: ctx.user.id, isTrashed: false } } });
             return notes;
         }
-        catch (error) {
+        catch (e) {
             throw new server_1.TRPCError({
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'could not get user notes',
-                cause: error,
+                code: e instanceof server_1.TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+                message: e instanceof server_1.TRPCError ? e.message : 'could not get user notes',
+                cause: e,
             });
         }
     }),
@@ -36,11 +39,38 @@ exports.noteRouter = trpc_1.default.router({
             });
             return notes;
         }
-        catch (error) {
+        catch (e) {
             throw new server_1.TRPCError({
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'could not get create notes',
-                cause: error,
+                code: e instanceof server_1.TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+                message: e instanceof server_1.TRPCError ? e.message : 'could not create notes',
+                cause: e,
+            });
+        }
+    }),
+    delete: withUserProcedure.input(noteDeleteInput).mutation(async ({ ctx, input }) => {
+        try {
+            const note = await prisma.note.findFirst({ where: { id: input.id } });
+            if (!note) {
+                throw new server_1.TRPCError({
+                    code: 'NOT_FOUND',
+                    message: 'could not find note',
+                });
+            }
+            if (note.userId === ctx.user.id) {
+                await prisma.note.delete({ where: { id: note.id } });
+            }
+            else {
+                throw new server_1.TRPCError({
+                    code: 'FORBIDDEN',
+                    message: 'you are not authorized',
+                });
+            }
+        }
+        catch (e) {
+            throw new server_1.TRPCError({
+                code: e instanceof server_1.TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+                message: e instanceof server_1.TRPCError ? e.message : 'could not delete note',
+                cause: e,
             });
         }
     }),

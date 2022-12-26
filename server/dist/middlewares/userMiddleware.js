@@ -6,10 +6,14 @@ const server_1 = require("@trpc/server");
 const trpc_1 = require("../config/trpc");
 const prisma = new client_1.PrismaClient();
 exports.isUser = trpc_1.default.middleware(async ({ ctx, next }) => {
-    if (!(ctx === null || ctx === void 0 ? void 0 : ctx.id)) {
+    var _a;
+    if (!((_a = ctx.user) === null || _a === void 0 ? void 0 : _a.id)) {
         throw new server_1.TRPCError({ message: 'you dont have access', code: 'UNAUTHORIZED' });
     }
-    const user = await prisma.user.findFirstOrThrow({ where: { id: ctx.id } });
-    return next({ ctx: { id: ctx.id, user } });
+    const user = await prisma.user.findFirst({ where: { id: ctx.user.id } });
+    if (!user) {
+        throw new server_1.TRPCError({ message: 'you dont have access', code: 'UNAUTHORIZED' });
+    }
+    return next({ ctx: Object.assign(Object.assign({}, ctx), { user: user }) });
 });
 //# sourceMappingURL=userMiddleware.js.map

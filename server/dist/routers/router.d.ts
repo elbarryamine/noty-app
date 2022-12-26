@@ -1,6 +1,8 @@
 export declare const appRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: {
-        id?: number;
+        user: {
+            id: number;
+        };
     };
     meta: object;
     errorShape: never;
@@ -8,7 +10,9 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
 }>, {
     note: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         meta: object;
         errorShape: never;
@@ -17,7 +21,9 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
         get: import("@trpc/server").BuildProcedure<"query", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
-                    id?: number;
+                    user: {
+                        id: number;
+                    };
                 };
                 meta: object;
                 errorShape: never;
@@ -25,9 +31,10 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             }>;
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
-                id?: number;
+                user: {
+                    id: number;
+                };
             }, {
-                id: number;
                 user: import(".prisma/client").User;
             }>;
             _input_in: typeof import("@trpc/server").unsetMarker;
@@ -38,7 +45,9 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
         create: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
-                    id?: number;
+                    user: {
+                        id: number;
+                    };
                 };
                 meta: object;
                 errorShape: never;
@@ -46,9 +55,10 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             }>;
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
-                id?: number;
+                user: {
+                    id: number;
+                };
             }, {
-                id: number;
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
@@ -60,10 +70,40 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, import(".prisma/client").Note>;
+        delete: import("@trpc/server").BuildProcedure<"mutation", {
+            _config: import("@trpc/server").RootConfig<{
+                ctx: {
+                    user: {
+                        id: number;
+                    };
+                };
+                meta: object;
+                errorShape: never;
+                transformer: import("@trpc/server").DataTransformerOptions;
+            }>;
+            _meta: object;
+            _ctx_out: import("@trpc/server").Overwrite<{
+                user: {
+                    id: number;
+                };
+            }, {
+                user: import(".prisma/client").User;
+            }>;
+            _input_in: {
+                id?: number;
+            };
+            _input_out: {
+                id?: number;
+            };
+            _output_in: typeof import("@trpc/server").unsetMarker;
+            _output_out: typeof import("@trpc/server").unsetMarker;
+        }, void>;
     }>;
     user: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
-            id?: number;
+            user: {
+                id: number;
+            };
         };
         meta: object;
         errorShape: never;
@@ -72,7 +112,9 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
         login: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
-                    id?: number;
+                    user: {
+                        id: number;
+                    };
                 };
                 meta: object;
                 errorShape: never;
@@ -80,7 +122,9 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             }>;
             _meta: object;
             _ctx_out: {
-                id?: number;
+                user: {
+                    id: number;
+                };
             };
             _input_in: {
                 email?: string;
@@ -98,7 +142,9 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
         sigunp: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
-                    id?: number;
+                    user: {
+                        id: number;
+                    };
                 };
                 meta: object;
                 errorShape: never;
@@ -106,19 +152,21 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             }>;
             _meta: object;
             _ctx_out: {
-                id?: number;
+                user: {
+                    id: number;
+                };
             };
             _input_in: {
-                email?: string;
-                password?: string;
                 firstName?: string;
                 lastName?: string;
+                email?: string;
+                password?: string;
             };
             _input_out: {
-                email?: string;
-                password?: string;
                 firstName?: string;
                 lastName?: string;
+                email?: string;
+                password?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;

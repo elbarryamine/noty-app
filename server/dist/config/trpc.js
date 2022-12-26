@@ -10,9 +10,9 @@ async function createContext({ req }) {
         const token = ((_b = (_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.authorization) !== null && _b !== void 0 ? _b : '').split(' ')[1];
         if (token) {
             const decoded = jwt.verify(token, secret);
-            return decoded && decoded.id ? decoded : null;
+            return { user: decoded && decoded.id ? { id: decoded.id } : null };
         }
-        return null;
+        return { user: null };
     }
     catch (_c) {
         throw new server_1.TRPCError({

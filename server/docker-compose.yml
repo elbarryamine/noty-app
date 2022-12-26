@@ -9,7 +9,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: 123456
     ports:
-      - 3306:3306
+      - 3307:3306
     networks:
       - noty
   app:

@@ -29,8 +29,10 @@ export const userRouter = trpc.router({
   login: trpc.procedure.input(loginInput).mutation(async ({ input }): Promise<{ token: string }> => {
     try {
       // find user by email
-      const user = await prisma.user.findFirst({ where: { email: input.email } });
-      if (!user) throw new TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
+      const user = await prisma.user.findUnique({ where: { email: input.email } });
+      if (!user) {
+        throw new TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
+      }
       // check pass match
       const matchPass = await bcrypt.compare(input.password, user.password);
       if (!matchPass) throw new TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
@@ -38,11 +40,11 @@ export const userRouter = trpc.router({
       // return token we should refresh token later
       const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET as jwt.Secret);
       return { token: accessToken };
-    } catch (error) {
+    } catch (e: unknown) {
       throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'could not save the user',
-        cause: error,
+        code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+        message: e instanceof TRPCError ? e.message : 'could not find user',
+        cause: e,
       });
     }
   }),
@@ -59,11 +61,11 @@ export const userRouter = trpc.router({
           password: hashedPassword,
         },
       });
-    } catch (error) {
+    } catch (e: unknown) {
       throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'could not save the user',
-        cause: error,
+        code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+        message: e instanceof TRPCError ? e.message : 'could not save user',
+        cause: e,
       });
     }
   }),
