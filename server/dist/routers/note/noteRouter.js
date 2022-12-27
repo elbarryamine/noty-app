@@ -7,10 +7,26 @@ const client_1 = require("@prisma/client");
 const userMiddleware_1 = require("../../middlewares/userMiddleware");
 const server_1 = require("@trpc/server");
 const prisma = new client_1.PrismaClient();
-const noteInput = zod_1.default.object({
+const noteInput = zod_1.default
+    .object({
     text: zod_1.default.string(),
     title: zod_1.default.string(),
     color: zod_1.default.string().optional(),
+    categorie: zod_1.default.string(),
+})
+    .superRefine(({ text, title }, ctx) => {
+    if (!text && !title) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Please please provide either the title or the content',
+            path: ['title'],
+        });
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Please please provide either the title or the content',
+            path: ['text'],
+        });
+    }
 });
 const noteDeleteInput = zod_1.default.object({
     id: zod_1.default.number(),
@@ -37,6 +53,7 @@ exports.noteRouter = trpc_1.default.router({
                     text: input.text,
                     title: input.title,
                     color: input.color,
+                    categorie: input.categorie,
                     userId: ctx.user.id,
                 },
             });

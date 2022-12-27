@@ -55,11 +55,13 @@ export declare const noteRouter: import("@trpc/server").CreateRouterInner<import
             text?: string;
             title?: string;
             color?: string;
+            categorie?: string;
         };
         _input_out: {
             text?: string;
             title?: string;
             color?: string;
+            categorie?: string;
         };
         _output_in: typeof import("@trpc/server").unsetMarker;
         _output_out: typeof import("@trpc/server").unsetMarker;

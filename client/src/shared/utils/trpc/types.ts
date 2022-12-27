@@ -5,7 +5,7 @@ export type RouterOutput = inferRouterOutputs<AppRouter>;
 export type RouterInput = inferRouterInputs<AppRouter>;
 
 // Input
-export type NoteCreate = RouterInput['note']['create'];
+export type NoteCreateInput = RouterInput['note']['create'];
 
 // Response
-export type NoteGet = RouterOutput['note']['get'];
+export type NoteResponse = RouterOutput['note']['get'];

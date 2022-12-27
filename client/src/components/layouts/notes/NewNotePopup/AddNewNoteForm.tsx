@@ -1,21 +1,37 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { trpc } from '@shared/utils/trpc';
-import { NoteCreate } from '@shared/utils/trpc/types';
+import { NoteCreateInput } from '@shared/utils/trpc/types';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { Fragment } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 import AddNewNoteFormSkeleton from './AddNewNoteFormSkeleton';
 
-const noteInput = z.object({
-  title: z.string(),
-  text: z.string(),
-  color: z.string().optional(),
-});
+const noteInput = z
+  .object({
+    text: z.string(),
+    title: z.string(),
+    color: z.string().min(1, 'Please select a valid color'),
+    categorie: z.string(),
+  })
+  .superRefine(({ text, title }, ctx) => {
+    if (!text && !title) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Please please provide either the title or the content',
+        path: ['title'],
+      });
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Please please provide either the title or the content',
+        path: ['text'],
+      });
+    }
+  });
 
 const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isTask?: boolean }) => {
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = trpc.note.create.useMutation({
+  const { mutate, isLoading, isError, error } = trpc.note.create.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(trpc.note.get.getQueryKey());
       onClose && onClose();
@@ -28,9 +44,11 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
       title: '',
       text: '',
       color: '',
+      categorie: isTask ? 'task' : 'note',
     },
   });
-  const handleCreateNote = (values: NoteCreate) => {
+  const handleCreateNote = (values: NoteCreateInput) => {
+    // console.log(values);
     mutate(values);
   };
 
@@ -110,6 +128,7 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
             </section>
           )}
         />
+        {isError && <div className='error-message'>{error?.message}</div>}
         <Fragment>
           <button className='primary-button ml-auto' onClick={handleSubmit(handleCreateNote)}>
             Create

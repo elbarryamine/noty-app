@@ -6,11 +6,28 @@ import { TRPCError } from '@trpc/server';
 
 const prisma = new PrismaClient();
 
-const noteInput = z.object({
-  text: z.string(),
-  title: z.string(),
-  color: z.string().optional(),
-});
+const noteInput = z
+  .object({
+    text: z.string(),
+    title: z.string(),
+    color: z.string().optional(),
+    categorie: z.string(),
+  })
+  .superRefine(({ text, title }, ctx) => {
+    if (!text && !title) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Please please provide either the title or the content',
+        path: ['title'],
+      });
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Please please provide either the title or the content',
+        path: ['text'],
+      });
+    }
+  });
+
 const noteDeleteInput = z.object({
   id: z.number(),
 });
@@ -36,6 +53,7 @@ export const noteRouter = trpc.router({
           text: input.text,
           title: input.title,
           color: input.color,
+          categorie: input.categorie,
           userId: ctx.user.id,
         },
       });
