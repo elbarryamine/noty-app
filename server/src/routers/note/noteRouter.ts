@@ -7,7 +7,9 @@ import { TRPCError } from '@trpc/server';
 const prisma = new PrismaClient();
 
 const noteInput = z.object({
-  name: z.string(),
+  text: z.string(),
+  title: z.string(),
+  color: z.string().optional(),
 });
 const noteDeleteInput = z.object({
   id: z.number(),
@@ -27,12 +29,13 @@ export const noteRouter = trpc.router({
       });
     }
   }),
-  create: withUserProcedure.input(noteInput).mutation(async ({ ctx }) => {
+  create: withUserProcedure.input(noteInput).mutation(async ({ ctx, input }) => {
     try {
       const notes = await prisma.note.create({
         data: {
-          text: 'hi',
-          title: 'title',
+          text: input.text,
+          title: input.title,
+          color: input.color,
           userId: ctx.user.id,
         },
       });

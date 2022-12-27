@@ -1,6 +1,6 @@
+import LoginPage from '@components/layouts/login';
 import Head from 'next/head';
 import React from 'react';
-import LoginPage from '@layouts/login';
 
 const Login = () => {
   return (

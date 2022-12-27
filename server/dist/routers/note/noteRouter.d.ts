@@ -52,10 +52,14 @@ export declare const noteRouter: import("@trpc/server").CreateRouterInner<import
             user: import(".prisma/client").User;
         }>;
         _input_in: {
-            name?: string;
+            text?: string;
+            title?: string;
+            color?: string;
         };
         _input_out: {
-            name?: string;
+            text?: string;
+            title?: string;
+            color?: string;
         };
         _output_in: typeof import("@trpc/server").unsetMarker;
         _output_out: typeof import("@trpc/server").unsetMarker;

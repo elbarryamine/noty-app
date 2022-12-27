@@ -1,6 +1,6 @@
+import SignupPage from '@components/layouts/signup';
 import Head from 'next/head';
 import React from 'react';
-import SignupPage from '@layouts/signup';
 
 const Signup = () => {
   return (

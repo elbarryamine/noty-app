@@ -8,7 +8,9 @@ const userMiddleware_1 = require("../../middlewares/userMiddleware");
 const server_1 = require("@trpc/server");
 const prisma = new client_1.PrismaClient();
 const noteInput = zod_1.default.object({
-    name: zod_1.default.string(),
+    text: zod_1.default.string(),
+    title: zod_1.default.string(),
+    color: zod_1.default.string().optional(),
 });
 const noteDeleteInput = zod_1.default.object({
     id: zod_1.default.number(),
@@ -28,12 +30,13 @@ exports.noteRouter = trpc_1.default.router({
             });
         }
     }),
-    create: withUserProcedure.input(noteInput).mutation(async ({ ctx }) => {
+    create: withUserProcedure.input(noteInput).mutation(async ({ ctx, input }) => {
         try {
             const notes = await prisma.note.create({
                 data: {
-                    text: 'hi',
-                    title: 'title',
+                    text: input.text,
+                    title: input.title,
+                    color: input.color,
                     userId: ctx.user.id,
                 },
             });

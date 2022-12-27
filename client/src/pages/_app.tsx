@@ -1,11 +1,14 @@
 import type { AppProps } from 'next/app';
 import AuthProvider from '@shared/providers/AuthProvider';
 import { trpc } from '../shared/utils/trpc';
+import '@styles/tailwind.scrollist.css';
 import '@styles/tailwind.typography.css';
 import '@styles/tailwind.button.css';
 import '@styles/tailwind.form.css';
 import '@styles/tailwind.css';
-import '@styles/loader.css';
+import '@styles/tailwind.loaders.css';
+import '@styles/tailwind.skeleton.css';
+
 import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
