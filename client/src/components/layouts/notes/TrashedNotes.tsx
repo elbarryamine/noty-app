@@ -5,7 +5,7 @@ import NoteCard from './NoteCard';
 
 function TrashedNotes() {
   const { data, isLoading } = trpc.note.getTrash.useQuery();
-  const [isTrashHidden, setIsTrashHidden] = useState(true);
+  const [isTrashHidden, setIsTrashHidden] = useState(false);
 
   return (
     <Fragment>

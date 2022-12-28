@@ -1,6 +1,5 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import HeaderNavigation from '@components/layouts/HeaderNavigation';
-import Preloader from '../Preloader';
 import dynamic from 'next/dynamic';
 const TrashedNotes = dynamic(() => import('../notes/TrashedNotes'));
 const NotesSection = dynamic(() => import('../notes/NotesSection'));
