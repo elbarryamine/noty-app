@@ -3,7 +3,7 @@ import HeaderNavigation from '@components/layouts/HeaderNavigation';
 import dynamic from 'next/dynamic';
 const TrashedNotes = dynamic(() => import('../notes/TrashedNotes'));
 const NotesSection = dynamic(() => import('../notes/NotesSection'));
-const TasksSection = dynamic(() => import('../notes/TasksSection'));
+// const TasksSection = dynamic(() => import('../notes/TasksSection'));
 // import TrashedNotes from '../notes/TrashedNotes';
 // import NotesSection from '../notes/NotesSection';
 // import TasksSection from '../notes/TasksSection';
@@ -14,9 +14,9 @@ const HomePage = () => {
       <div className='space-y-10 px-8 max-w-7xl mx-auto flex flex-col h-full pb-5'>
         <HeaderNavigation />
         <div className='w-full flex flex-row h-full overflow-x-scroll scroll-list space-x-2'>
-          <div className='flex-1 grid grid-cols-[1fr_1fr_1fr] space-x-2 mx-auto'>
+          <div className='flex-1 grid grid-cols-[2fr_1fr] space-x-2 mx-auto'>
             <NotesSection />
-            <TasksSection />
+            {/* <TasksSection /> */}
             <TrashedNotes />
           </div>
         </div>

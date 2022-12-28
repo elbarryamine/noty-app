@@ -12,7 +12,7 @@ const NewNote = ({ isTask }: { isTask?: boolean }) => {
     <Popover.Root open={isOpen}>
       <Popover.Trigger
         onClick={onOpen}
-        className='w-full min-h-[70px] rounded-md border-[3px] border-dashed group border-indigo-300 flex items-center justify-center hover:border-indigo-600'
+        className='w-full cursor-pointer min-h-[70px] rounded-md border-[3px] border-dashed group border-indigo-300 flex items-center justify-center hover:border-indigo-600'
         asChild
       >
         <div className='flex items-center space-x-2 '>
@@ -21,10 +21,7 @@ const NewNote = ({ isTask }: { isTask?: boolean }) => {
         </div>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content
-          className='bg-white border-gray-200 border-[1px] rounded-md w-[280px] md:w-[90%] md:mx-auto p-5 shadow-md'
-          sideOffset={5}
-        >
+        <Popover.Content sideOffset={5}>
           <AddNewNoteForm onClose={onClose} isTask={isTask} />
         </Popover.Content>
       </Popover.Portal>

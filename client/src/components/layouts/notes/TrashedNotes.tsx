@@ -10,8 +10,9 @@ function TrashedNotes() {
   if (isTrashHidden)
     return (
       <div className='min-w-[300px] space-y-5 rounded-md p-2 overflow-y-scroll flex justify-end self-start'>
-        <button onClick={() => setIsTrashHidden(!isTrashHidden)} className='primary-button'>
-          Show Trash
+        <button className='flex space-x-2 items-center' onClick={() => setIsTrashHidden(!isTrashHidden)}>
+          <p className='text-red-500 font-bold'>Open the trash</p>
+          <FiTrash className='stroke-red-500 cursor-pointer' size='20px' />
         </button>
       </div>
     );

@@ -10,7 +10,7 @@ function NotesSection() {
 
   return (
     <Fragment>
-      <div className='min-w-[300px] space-y-5 rounded-md p-2 bg-white overflow-y-scroll flex flex-col'>
+      <div className='min-w-[300px] space-y-5 rounded-md p-2 overflow-y-scroll flex flex-col'>
         <Fragment>
           <div className='flex items-center space-x-2'>
             <h1 className='text-lg font-medium'>Notes</h1>
@@ -21,13 +21,18 @@ function NotesSection() {
           </div>
         </Fragment>
         <Fragment>
-          <div className='flex-1 shadow-sm'>
+          <div className='flex-1'>
             {isLoading ? (
               <div className='h-full flex items-center justify-center'>
                 <span className='loader-dark' />
               </div>
             ) : (
-              <div className='h-full p-2 space-y-2'>
+              <div className='h-full space-y-2'>
+                {notes.length === 0 && (
+                  <div className='h-[80%] flex items-center justify-center'>
+                    <p className='text-center font-medium text-indigo-500'>Start adding some notes to see them here</p>
+                  </div>
+                )}
                 {notes.map((el) => (
                   <NoteCard key={el.id} note={el} />
                 ))}
