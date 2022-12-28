@@ -1,5 +1,5 @@
 import React from 'react';
-import { trpc } from '@shared/utils/trpc';
+import { trpc } from '@shared/utils/trpc/trpc';
 import { NoteResponse } from '@shared/utils/trpc/types';
 import { useQueryClient } from '@tanstack/react-query';
 

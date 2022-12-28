@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo } from 'react';
 import NewNote from './NewNotePopup';
 import { MdTaskAlt } from 'react-icons/md';
-import { trpc } from '@shared/utils/trpc';
+import { trpc } from '@shared/utils/trpc/trpc';
 import NoteCard from './NoteCard';
 
 function TasksSection() {

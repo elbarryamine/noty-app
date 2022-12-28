@@ -1,5 +1,5 @@
 import React from 'react';
-import { trpc } from '@shared/utils/trpc';
+import { trpc } from '@shared/utils/trpc/trpc';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';

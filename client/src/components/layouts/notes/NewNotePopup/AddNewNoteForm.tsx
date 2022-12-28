@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { trpc } from '@shared/utils/trpc';
+import { trpc } from '@shared/utils/trpc/trpc';
 import { NoteCreateInput } from '@shared/utils/trpc/types';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { Fragment } from 'react';

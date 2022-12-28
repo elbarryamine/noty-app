@@ -1,28 +1,21 @@
 version: '3.8'
 services:
-  notyappdb:
-    container_name: notyappdb
+  db:
+    container_name: db
     build:
       context: .
-      dockerfile: ./Dockerfile-Mysql
+      dockerfile: ./Dockerfilemysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: noty_db
+      MYSQL_DATABASE: notydb
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - 3306:3306
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://notyappapi:3306']
-      interval: 30s
-      timeout: 10s
-      retries: 10
     networks:
       - noty
 
-  notyappapi:
-    container_name: notyappapi
-    depends_on:
-      - notyappdb
+  api:
+    container_name: api
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -36,5 +29,9 @@ services:
     tty: true
     networks:
       - noty
+    depends_on:
+      db:
+        condition: service_healthy
+
 networks:
   noty:

@@ -1,4 +1,4 @@
-import { trpc } from '@shared/utils/trpc';
+import { trpc } from '@shared/utils/trpc/trpc';
 import React, { Fragment, useState } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import NoteCard from './NoteCard';
