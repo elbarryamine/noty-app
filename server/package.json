@@ -1,11 +1,14 @@
 {
   "scripts": {
+    "studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev --name init",
     "build": "npx tsc",
-    "build:watch": "npx tsc -w",
+    "watch": "npx tsc -w",
+    "start:watch": "nodemon dist/index.js",
     "start": "node dist/index.js",
-    "dev": "nodemon dist/index.js",
-    "db:up": "docker compose up dev_db -d",
-    "studio": "npx prisma studio"
+    "dev": "concurrently \"npm run build\" \"npm run start:watch\"",
+    "start:prod": "concurrently \"npm run prisma:migrate\" \"npm run start:watch\""
   },
   "dependencies": {
     "@prisma/client": "4.8.0",

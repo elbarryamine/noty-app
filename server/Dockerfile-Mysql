@@ -1,0 +1,8 @@
+FROM mysql/mysql-server
+
+ENV MYSQL_DATABASE=noty_db \
+    MYSQL_ROOT_PASSWORD=123456
+
+ADD /schemapath/privileges.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306
