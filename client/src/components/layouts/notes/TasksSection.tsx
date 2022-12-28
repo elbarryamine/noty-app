@@ -13,7 +13,7 @@ function TasksSection() {
       <div className='min-w-[300px] space-y-5 rounded-md p-2 bg-white overflow-y-scroll flex flex-col'>
         <Fragment>
           <div className='flex items-center space-x-2'>
-            <h1 className='text-lg font-medium'>Notes</h1>
+            <h1 className='text-lg font-medium'>Tasks</h1>
             <MdTaskAlt size='18px' />
           </div>
           <div className='space-y-2'>

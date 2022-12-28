@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from 'react';
 import NewNote from './NewNotePopup';
-import { CiStickyNote } from 'react-icons/ci';
+import { SlNote } from 'react-icons/sl';
 import { trpc } from '@shared/utils/trpc';
 import NoteCard from './NoteCard';
 
@@ -14,7 +14,7 @@ function NotesSection() {
         <Fragment>
           <div className='flex items-center space-x-2'>
             <h1 className='text-lg font-medium'>Notes</h1>
-            <CiStickyNote size='18px' />
+            <SlNote size='18px' />
           </div>
           <div className='space-y-2'>
             <NewNote />

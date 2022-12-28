@@ -30,6 +30,7 @@ const noteInput = zod_1.default
 });
 const noteDeleteInput = zod_1.default.object({
     id: zod_1.default.number(),
+    isRestore: zod_1.default.boolean().default(false),
 });
 const withUserProcedure = trpc_1.default.procedure.use(userMiddleware_1.isUser);
 exports.noteRouter = trpc_1.default.router({
@@ -42,6 +43,19 @@ exports.noteRouter = trpc_1.default.router({
             throw new server_1.TRPCError({
                 code: e instanceof server_1.TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
                 message: e instanceof server_1.TRPCError ? e.message : 'could not get user notes',
+                cause: e,
+            });
+        }
+    }),
+    getTrash: withUserProcedure.query(async ({ ctx }) => {
+        try {
+            const notes = await prisma.note.findMany({ where: { AND: { userId: ctx.user.id, isTrashed: true } } });
+            return notes;
+        }
+        catch (e) {
+            throw new server_1.TRPCError({
+                code: e instanceof server_1.TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+                message: e instanceof server_1.TRPCError ? e.message : 'could not get user deleted notes',
                 cause: e,
             });
         }
@@ -78,6 +92,35 @@ exports.noteRouter = trpc_1.default.router({
             }
             if (note.userId === ctx.user.id) {
                 await prisma.note.delete({ where: { id: note.id } });
+                return { note };
+            }
+            else {
+                throw new server_1.TRPCError({
+                    code: 'FORBIDDEN',
+                    message: 'you are not authorized',
+                });
+            }
+        }
+        catch (e) {
+            throw new server_1.TRPCError({
+                code: e instanceof server_1.TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+                message: e instanceof server_1.TRPCError ? e.message : 'could not delete note',
+                cause: e,
+            });
+        }
+    }),
+    trash: withUserProcedure.input(noteDeleteInput).mutation(async ({ ctx, input }) => {
+        try {
+            const note = await prisma.note.findFirst({ where: { id: input.id } });
+            if (!note) {
+                throw new server_1.TRPCError({
+                    code: 'NOT_FOUND',
+                    message: 'could not find note',
+                });
+            }
+            if (note.userId === ctx.user.id) {
+                await prisma.note.update({ where: { id: note.id }, data: { isTrashed: !input.isRestore } });
+                return { note };
             }
             else {
                 throw new server_1.TRPCError({

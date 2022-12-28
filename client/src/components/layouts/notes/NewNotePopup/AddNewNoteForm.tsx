@@ -43,7 +43,7 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
     defaultValues: {
       title: '',
       text: '',
-      color: '',
+      color: '#FFFFFF',
       categorie: isTask ? 'task' : 'note',
     },
   });
@@ -61,7 +61,7 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
           <div className='text-red-600 text-sm font-bold'>Cancel</div>
         </button>
       </div>
-      <div className='space-y-2'>
+      <div className='space-y-5'>
         <Controller
           control={control}
           name='title'
@@ -105,21 +105,26 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
           name='color'
           render={({ field, fieldState }) => (
             <section className='space-y-1'>
-              <div className='flex items-center justify-between'>
-                <label className='label'>{isTask ? 'Task' : 'Note'} Color</label>
-                <div className='relative h-5 w-5'>
-                  <input
-                    className='absolute top-0 left-0 h-full w-full opacity-0 z-[2]'
-                    type='color'
-                    placeholder='Take my dog to the park its been too long since i walked him'
-                    value={field.value}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                  />
-                  <button className='absolute top-0 left-0 h-5 w-5 flex items-center justify-center'>
-                    <div className='w-4 h-4 bg-black rounded-md' style={{ background: field.value }}></div>
-                  </button>
-                </div>
+              <div className='flex items-end justify-between'>
+                <p className='label'>{isTask ? 'Task' : 'Note'} Color</p>
+                <Fragment>
+                  <div className='flex space-x-2 items-end'>
+                    <p className='text-sm'>{field.value}</p>
+                    <div className='relative rounded-md h-5 w-14 border-[1px]'>
+                      <input
+                        className='absolute top-0 left-0 h-full w-full opacity-0 z-[2]'
+                        type='color'
+                        placeholder='Take my dog to the park its been too long since i walked him'
+                        value={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                      />
+                      <button className='absolute top-0 left-0 h-5 w-5 flex items-center justify-center'>
+                        <div className='w-4 h-4 bg-black rounded-md' style={{ background: field.value }}></div>
+                      </button>
+                    </div>
+                  </div>
+                </Fragment>
               </div>
               <div className='error-message'>{fieldState.error?.message}</div>
               <p className='text-gray-500 text-xs'>

@@ -8,13 +8,13 @@ function AddNewNoteFormSkeleton() {
         <div className='skeleton h-3 w-[20%]' />
       </div>
       <div className='space-y-2'>
-        <fieldset>
+        <fieldset className='space-y-2'>
           <label className='label'>
             <div className='skeleton h-3 w-[20%]' />
           </label>
           <input className='input skeleton' disabled />
         </fieldset>
-        <fieldset>
+        <fieldset className='space-y-2'>
           <label className='label'>
             <div className='skeleton h-3 w-[20%]' />
           </label>

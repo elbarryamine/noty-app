@@ -8,6 +8,7 @@ import '@styles/tailwind.form.css';
 import '@styles/tailwind.css';
 import '@styles/tailwind.loaders.css';
 import '@styles/tailwind.skeleton.css';
+import '@styles/alertdialog.css';
 
 import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

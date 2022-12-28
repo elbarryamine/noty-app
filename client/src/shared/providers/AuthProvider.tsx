@@ -24,7 +24,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setLoaded(true);
     }
   }, [user]);
-  if (!loaded) return <Preloader />;
+  if (!loaded)
+    return (
+      <main className='h-screen'>
+        <Preloader />
+      </main>
+    );
   return <>{children}</>;
 }
 
