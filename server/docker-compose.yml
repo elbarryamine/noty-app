@@ -1,21 +1,21 @@
 version: '3.8'
 services:
-  db:
-    container_name: db
+  notymysql:
+    container_name: notymysql
     build:
       context: .
       dockerfile: ./Dockerfilemysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: notydb
+      MYSQL_DATABASE: primary_database
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - 3306:3306
     networks:
       - noty
 
-  api:
-    container_name: api
+  notyapi:
+    container_name: notyapi
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -30,7 +30,7 @@ services:
     networks:
       - noty
     depends_on:
-      db:
+      notymysql:
         condition: service_healthy
 
 networks:
