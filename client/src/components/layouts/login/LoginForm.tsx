@@ -27,6 +27,7 @@ const LoginForm = () => {
   const handleLogin = (values: User) => {
     mutate({ ...values });
   };
+
   return (
     <form className='space-y-5 mx-auto flex-1 max-w-xl p-10 bg-slate-50 shadow-md rounded-md border-gray-200 border-[1px]'>
       <h1 className='primary-header-display text-center'>Noty</h1>

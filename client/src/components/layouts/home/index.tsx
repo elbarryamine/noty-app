@@ -16,7 +16,6 @@ const HomePage = () => {
         <div className='w-full flex flex-row h-full overflow-x-scroll scroll-list space-x-2'>
           <div className='flex-1 grid grid-cols-[2fr_1fr] space-x-2 mx-auto'>
             <NotesSection />
-            {/* <TasksSection /> */}
             <TrashedNotes />
           </div>
         </div>
