@@ -23,7 +23,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       setLoaded(true);
     }
-  }, [user]);
+  }, [user, router.pathname]);
   if (!loaded)
     return (
       <main className='h-screen'>
