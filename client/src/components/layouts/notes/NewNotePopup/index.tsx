@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import * as Popover from '@radix-ui/react-popover';
 import AddNewNoteForm from './AddNewNoteForm';
 import { FiFile } from 'react-icons/fi';
+import { Popover, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
+import { Button } from '@chakra-ui/button';
+import { Text, HStack } from '@chakra-ui/layout';
+import { Icon } from '@chakra-ui/icon';
 
 const NewNote = ({ isTask }: { isTask?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,23 +12,19 @@ const NewNote = ({ isTask }: { isTask?: boolean }) => {
   const onClose = () => setIsOpen(false);
 
   return (
-    <Popover.Root open={isOpen}>
-      <Popover.Trigger
-        onClick={onOpen}
-        className='w-full cursor-pointer min-h-[70px] rounded-md border-[3px] border-dashed group border-indigo-300 flex items-center justify-center hover:border-indigo-600'
-        asChild
-      >
-        <div className='flex items-center space-x-2 '>
-          <p className='group-hover:text-indigo-600 text-indigo-300'>Add new {isTask ? 'task' : 'note'}</p>
-          <FiFile size='25px' className='group-hover:stroke-indigo-600 stroke-indigo-300 stroke-1' />
-        </div>
-      </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content sideOffset={5}>
-          <AddNewNoteForm onClose={onClose} isTask={isTask} />
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+    <Popover isOpen={isOpen}>
+      <PopoverTrigger>
+        <Button variant='primary' onClick={onOpen}>
+          <HStack spacing={2} align='center' justify='center'>
+            <Text color='primaryText'>Add new {isTask ? 'task' : 'note'}</Text>
+            <Icon stroke='primaryText' size='25px' as={FiFile} />
+          </HStack>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <AddNewNoteForm onClose={onClose} isTask={isTask} />
+      </PopoverContent>
+    </Popover>
   );
 };
 

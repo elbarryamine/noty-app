@@ -5,6 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import z from 'zod';
 import { useRouter } from 'next/router';
+import { Heading, Stack } from '@chakra-ui/layout';
+import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/form-control';
+import { Input } from '@chakra-ui/input';
+import { Button } from '@chakra-ui/button';
 
 const userInput = z
   .object({
@@ -41,128 +45,126 @@ const LoginForm = () => {
     mutate({ ...values });
   };
   return (
-    <form className='space-y-5 mx-auto flex-1 max-w-xl p-10 bg-slate-50 shadow-md rounded-md border-gray-200 border-[1px]'>
-      <h1 className='primary-header-display text-center'>Noty</h1>
-      <div className='space-y-2'>
-        <Controller
-          control={control}
-          name='email'
-          render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='email' className='label'>
-                Email
-              </label>
-              <input
-                type='email'
-                name='email'
-                id='email'
-                className='input'
-                required
-                value={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
-          )}
-        />
+    <Stack
+      as='form'
+      spacing={5}
+      mx='auto'
+      flex='1'
+      maxW='xl'
+      p='20px'
+      bg='card'
+      shadow='md'
+      borderRadius='10px'
+      borderColor='border'
+      borderWidth='1px'
+    >
+      <Heading>Noty</Heading>
+      <Stack spacing={2}>
         <Controller
           control={control}
           name='firstName'
           render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='fname' className='label'>
-                First Name
-              </label>
-              <input
+            <FormControl>
+              <FormLabel>First Name</FormLabel>
+              <Input
                 type='text'
-                name='fname'
-                id='fname'
-                className='input'
-                value={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
-          )}
-        />
-        <Controller
-          control={control}
-          name='lastName'
-          render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='lname' className='label'>
-                Last Name
-              </label>
-              <input
-                id='lname'
-                name='lname'
-                type='text'
-                className='input'
-                value={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
-          )}
-        />
-        <Controller
-          control={control}
-          name='password'
-          render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='password' className='label'>
-                Password
-              </label>
-              <input
-                type='password'
-                id='password'
-                className='input'
+                name='firstname'
+                id='firstname'
                 required
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
               />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
+          )}
+        />
+        <Controller
+          control={control}
+          name='email'
+          render={({ field, fieldState }) => (
+            <FormControl>
+              <FormLabel>Last Name</FormLabel>
+              <Input
+                type='text'
+                name='lastname'
+                id='lastname'
+                required
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              />
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
+          )}
+        />
+        <Controller
+          control={control}
+          name='email'
+          render={({ field, fieldState }) => (
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input
+                type='email'
+                name='email'
+                id='email'
+                required
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              />
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name='password'
+          render={({ field, fieldState }) => (
+            <FormControl>
+              <FormLabel htmlFor='password'>Password</FormLabel>
+              <Input
+                type='password'
+                id='password'
+                required
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              />
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
           )}
         />
         <Controller
           control={control}
           name='passwordConfirm'
           render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='passwordConfirm' className='label'>
-                Password Confirm
-              </label>
-              <input
+            <FormControl>
+              <FormLabel>Password</FormLabel>
+              <Input
                 type='password'
-                id='passwordConfirm'
-                className='input'
+                id='password'
                 required
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
               />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
           )}
         />
-      </div>
-      <div className='error-message'>{error?.message}</div>
-      <button className='primary-button' onClick={handleSubmit(handleSignup)}>
-        {isLoading ? <span className='loader'></span> : 'Signup'}
-      </button>
-      <div>
-        <Link href='/login'>
-          <button disabled={isLoading} className='text-blue-700'>
-            Already have an account?
-          </button>
-        </Link>
-      </div>
-    </form>
+      </Stack>
+      <FormErrorMessage>{error?.message}</FormErrorMessage>
+      <Button variant='primary' onClick={handleSubmit(handleSignup)} isLoading={isLoading}>
+        Login
+      </Button>
+      <Link href='/login'>
+        <Button variant='ghost' disabled={isLoading}>
+          Already have an account?
+        </Button>
+      </Link>
+    </Stack>
   );
 };
 

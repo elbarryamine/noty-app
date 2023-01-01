@@ -1,7 +1,0 @@
-.skeleton {
-  @apply bg-gray-300 rounded-md min-w-[1px] min-h-[1px];
-}
-
-.skeleton-button {
-  @apply flex justify-center rounded-md border border-transparent bg-gray-300 py-2 px-4 h-8 w-20;
-}

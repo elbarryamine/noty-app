@@ -1,10 +1,12 @@
+import { Flex } from '@chakra-ui/layout';
+import { Spinner } from '@chakra-ui/spinner';
 import React from 'react';
 
 const Preloader = () => {
   return (
-    <div className='h-full w-full flex items-center justify-center '>
-      <span className='loader-dark' />
-    </div>
+    <Flex h='100vh' w='100vw' align='center' justify='center'>
+      <Spinner />
+    </Flex>
   );
 };
 

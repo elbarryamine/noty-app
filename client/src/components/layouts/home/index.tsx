@@ -1,34 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HeaderNavigation from '@components/layouts/HeaderNavigation';
 import dynamic from 'next/dynamic';
-const TrashedNotes = dynamic(() => import('../notes/TrashedNotes'));
-const NotesSection = dynamic(() => import('../notes/NotesSection'));
-// const TasksSection = dynamic(() => import('../notes/TasksSection'));
-// import TrashedNotes from '../notes/TrashedNotes';
-// import NotesSection from '../notes/NotesSection';
-// import TasksSection from '../notes/TasksSection';
+import { Box, Container, Flex, HStack, Stack, Text } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/button';
+import { Icon } from '@chakra-ui/icon';
+import { trpc } from '@shared/utils/trpc/trpc';
+import NoteCard from '../notes/NoteCard';
+import { AiOutlinePlus } from 'react-icons/ai';
+import NoteCategorieSelect from '../notes/NoteCategorieSelect';
+
+const NewNote = dynamic(() => import('../notes/NewNotePopup'));
 
 const HomePage = () => {
+  const categories = ['notes'];
+  const [selected, setSelected] = useState(categories[0]);
+  const notes = trpc.note.get.useQuery();
+  const trashedNotes = trpc.note.getTrash.useQuery();
   return (
-    <main className='h-screen'>
-      <div className='space-y-10 px-8 max-w-7xl mx-auto flex flex-col h-full pb-5'>
-        <HeaderNavigation />
-        <div className='w-full flex flex-row h-full overflow-x-scroll scroll-list space-x-2'>
-          <div className='flex-1 grid grid-cols-[2fr_1fr] space-x-2 mx-auto'>
-            <NotesSection />
-            <TrashedNotes />
-          </div>
-        </div>
-      </div>
-    </main>
+    <Box as='main' h='100vh'>
+      <Container maxW='container.xl' px='10px' h='100%'>
+        <Stack spacing={10} h='100%'>
+          <HeaderNavigation />
+          <Flex justify='space-between' align='center' flexDir='row'>
+            <HStack>
+              <NoteCategorieSelect
+                categories={categories}
+                selected={selected}
+                onChange={(value) => setSelected(value)}
+              />
+              <Button
+                px='30px'
+                borderRadius='20px'
+                borderWidth='2px'
+                borderColor='blue'
+                borderStyle='dashed'
+                bg='transparent'
+              >
+                <HStack>
+                  <Icon fill='blue' size='20px' as={AiOutlinePlus} />
+                  <Text color='blue'>New Categorie</Text>
+                </HStack>
+              </Button>
+            </HStack>
+            <NewNote />
+          </Flex>
+
+          <Stack spacing={2}>
+            {selected === 'trash' ? (
+              <>
+                {(trashedNotes.data ?? []).length > 0 && (
+                  <Button colorScheme='red' alignSelf='flex-end'>
+                    Clear Trash
+                  </Button>
+                )}
+                {(trashedNotes.data ?? []).map((note) => (
+                  <NoteCard key={note.id} note={note} />
+                ))}
+              </>
+            ) : (
+              <>
+                {(notes.data ?? []).map((note) => (
+                  <NoteCard key={note.id} note={note} />
+                ))}
+              </>
+            )}
+          </Stack>
+        </Stack>
+      </Container>
+    </Box>
   );
 };
-{
-  /* <Fragment>
-<button className='min-w-[290px] h-full border-dashed group rounded-md border-[3px] flex items-center justify-center group border-indigo-300 hover:border-indigo-600'>
-<p className='text-indigo-300 group-hover:text-indigo-600'>Add New Section</p>
-</button>
-</Fragment> */
-}
 
 export default HomePage;

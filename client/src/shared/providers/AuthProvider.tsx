@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/layout';
 import { useUserStore } from '@store/user';
 import { useRouter } from 'next/router';
 import React, { ReactNode, useEffect, useState } from 'react';
@@ -26,9 +27,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
   }, [user, router.pathname]);
   if (!loaded)
     return (
-      <main className='h-screen'>
+      <Box as='main'>
         <Preloader />
-      </main>
+      </Box>
     );
   return <>{children}</>;
 }

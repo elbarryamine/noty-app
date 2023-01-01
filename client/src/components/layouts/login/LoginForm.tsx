@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
 import z from 'zod';
 import { useUserStore } from '@store/user';
+import { Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Stack } from '@chakra-ui/react';
 
 const userInput = z.object({
   email: z.string().email('Please provide a valid email'),
@@ -29,29 +30,38 @@ const LoginForm = () => {
   };
 
   return (
-    <form className='space-y-5 mx-auto flex-1 max-w-xl p-10 bg-slate-50 shadow-md rounded-md border-gray-200 border-[1px]'>
-      <h1 className='primary-header-display text-center'>Noty</h1>
-      <div className='space-y-2'>
+    <Stack
+      as='form'
+      spacing={5}
+      mx='auto'
+      flex='1'
+      maxW='xl'
+      p='20px'
+      bg='card'
+      shadow='md'
+      borderRadius='10px'
+      borderColor='border'
+      borderWidth='1px'
+    >
+      <Heading>Noty</Heading>
+      <Stack spacing={2}>
         <Controller
           control={control}
           name='email'
           render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='email' className='label'>
-                Email
-              </label>
-              <input
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input
                 type='email'
                 name='email'
                 id='email'
-                className='input'
                 required
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
               />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
           )}
         />
 
@@ -59,36 +69,31 @@ const LoginForm = () => {
           control={control}
           name='password'
           render={({ field, fieldState }) => (
-            <div>
-              <label htmlFor='password' className='label'>
-                Password
-              </label>
-              <input
+            <FormControl>
+              <FormLabel htmlFor='password'>Password</FormLabel>
+              <Input
                 type='password'
                 id='password'
-                className='input'
                 required
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
               />
-              <div className='error-message'>{fieldState.error?.message}</div>
-            </div>
+              <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
+            </FormControl>
           )}
         />
-      </div>
-      <div className='error-message'>{error?.message}</div>
-      <button className='primary-button' onClick={handleSubmit(handleLogin)}>
-        {isLoading ? <span className='loader'></span> : 'Login'}
-      </button>
-      <div>
-        <Link href='/signup'>
-          <button disabled={isLoading} className='text-blue-700'>
-            Dont have an account?
-          </button>
-        </Link>
-      </div>
-    </form>
+      </Stack>
+      <FormErrorMessage>{error?.message}</FormErrorMessage>
+      <Button variant='primary' onClick={handleSubmit(handleLogin)} isLoading={isLoading}>
+        Login
+      </Button>
+      <Link href='/signup'>
+        <Button variant='ghost' disabled={isLoading}>
+          Dont have an account?
+        </Button>
+      </Link>
+    </Stack>
   );
 };
 

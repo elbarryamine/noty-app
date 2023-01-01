@@ -1,11 +1,13 @@
+import { Box } from '@chakra-ui/layout';
+import dynamic from 'next/dynamic';
 import React from 'react';
-import SignupForm from './SignupForm';
+const SignupForm = dynamic(() => import('./SignupForm'), { ssr: true });
 
 const SignupPage = () => {
   return (
-    <main className='bg-gray-50 h-screen flex items-center justify-center'>
+    <Box as='main' minH='100vh' display='flex' justifyContent='center' alignItems='center'>
       <SignupForm />
-    </main>
+    </Box>
   );
 };
 

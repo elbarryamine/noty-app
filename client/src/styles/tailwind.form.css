@@ -1,9 +1,0 @@
-.label {
-  @apply text-sm font-medium text-gray-900 block;
-}
-.input {
-  @apply bg-blue-50 border border-gray-200 text-gray-900 sm:text-sm rounded-md focus:outline-[1px] focus:ring-blue-100 focus:outline-blue-300 block w-full p-2.5;
-}
-.error-message {
-  @apply text-red-600 text-xs;
-}
