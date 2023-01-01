@@ -1,16 +1,17 @@
 import React from 'react';
 import { trpc } from '@shared/utils/trpc/trpc';
 import { useQueryClient } from '@tanstack/react-query';
-import { NoteResponse } from '@shared/utils/trpc/types';
+import { NoteGetResponse } from '@shared/utils/trpc/types';
 import { Button } from '@chakra-ui/button';
 import * as hexContrastColor from 'hex-contrast-color';
+import { Text } from '@chakra-ui/react';
 
-const NoteDelete = ({ note }: { note: NoteResponse[number] }) => {
+const NoteDelete = ({ note }: { note: NoteGetResponse[number] }) => {
   const invertedColor = hexContrastColor(note.color);
   const queryClient = useQueryClient();
   const moveToTrash = trpc.note.trash.useMutation({
     onSuccess: () => {
-      queryClient.setQueryData<NoteResponse>(trpc.note.get.getQueryKey(), (data) =>
+      queryClient.setQueryData<NoteGetResponse>(trpc.note.get.getQueryKey(), (data) =>
         (data ?? []).filter((el) => el.id !== note.id)
       );
       queryClient.invalidateQueries(trpc.note.get.getQueryKey());
@@ -19,7 +20,7 @@ const NoteDelete = ({ note }: { note: NoteResponse[number] }) => {
   });
   const deleteNote = trpc.note.delete.useMutation({
     onSuccess: () => {
-      queryClient.setQueryData<NoteResponse>(trpc.note.getTrash.getQueryKey(), (data) =>
+      queryClient.setQueryData<NoteGetResponse>(trpc.note.getTrash.getQueryKey(), (data) =>
         (data ?? []).filter((el) => el.id !== note.id)
       );
       queryClient.invalidateQueries(trpc.note.getTrash.getQueryKey());
@@ -34,8 +35,10 @@ const NoteDelete = ({ note }: { note: NoteResponse[number] }) => {
     }
   };
   return (
-    <Button variant='ghost' color={invertedColor} fontWeight='900' onClick={handleDelete}>
-      {note.isTrashed ? 'Delete Permanently' : 'Delete'}
+    <Button variant='ghost' fontWeight='900' onClick={handleDelete} ml='auto'>
+      <Text fontWeight={400} color={invertedColor}>
+        {note.isTrashed ? 'Delete Permanently' : 'Delete'}
+      </Text>
     </Button>
   );
 };

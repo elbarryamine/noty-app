@@ -34,7 +34,7 @@ type User = typeof userInput._type;
 
 const LoginForm = () => {
   const router = useRouter();
-  const { mutate, isLoading, error } = trpc.user.sigunp.useMutation({
+  const { mutate, isLoading, error, isError } = trpc.user.sigunp.useMutation({
     onSuccess: () => router.push('/login'),
   });
   const { control, handleSubmit } = useForm({
@@ -81,7 +81,7 @@ const LoginForm = () => {
         />
         <Controller
           control={control}
-          name='email'
+          name='lastName'
           render={({ field, fieldState }) => (
             <FormControl>
               <FormLabel>Last Name</FormLabel>
@@ -141,10 +141,10 @@ const LoginForm = () => {
           name='passwordConfirm'
           render={({ field, fieldState }) => (
             <FormControl>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Pssword Confirm</FormLabel>
               <Input
                 type='password'
-                id='password'
+                id='passwordConfirm'
                 required
                 value={field.value}
                 onChange={field.onChange}
@@ -155,9 +155,11 @@ const LoginForm = () => {
           )}
         />
       </Stack>
-      <FormErrorMessage>{error?.message}</FormErrorMessage>
+      <FormControl isInvalid={isError}>
+        <FormErrorMessage>{error?.message}</FormErrorMessage>
+      </FormControl>
       <Button variant='primary' onClick={handleSubmit(handleSignup)} isLoading={isLoading}>
-        Login
+        Signup
       </Button>
       <Link href='/login'>
         <Button variant='ghost' disabled={isLoading}>

@@ -8,4 +8,5 @@ export type RouterInput = inferRouterInputs<AppRouter>;
 export type NoteCreateInput = RouterInput['note']['create'];
 
 // Response
-export type NoteResponse = RouterOutput['note']['get'];
+export type NoteGetResponse = RouterOutput['note']['get'];
+export type CategoryResponse = RouterOutput['category']['get'];

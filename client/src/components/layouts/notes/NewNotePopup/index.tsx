@@ -6,7 +6,13 @@ import { Button } from '@chakra-ui/button';
 import { Text, HStack } from '@chakra-ui/layout';
 import { Icon } from '@chakra-ui/icon';
 
-const NewNote = ({ isTask }: { isTask?: boolean }) => {
+const NewNote = ({
+  categoryId,
+  isTask,
+}: {
+  categoryId: number;
+  isTask?: boolean;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => setIsOpen(true);
   const onClose = () => setIsOpen(false);
@@ -14,15 +20,19 @@ const NewNote = ({ isTask }: { isTask?: boolean }) => {
   return (
     <Popover isOpen={isOpen}>
       <PopoverTrigger>
-        <Button variant='primary' onClick={onOpen}>
-          <HStack spacing={2} align='center' justify='center'>
-            <Text color='primaryText'>Add new {isTask ? 'task' : 'note'}</Text>
-            <Icon stroke='primaryText' size='25px' as={FiFile} />
+        <Button variant="primary" onClick={onOpen} zIndex={9999}>
+          <HStack spacing={2} align="center" justify="center">
+            <Text color="primaryText">Add new {isTask ? 'task' : 'note'}</Text>
+            <Icon stroke="primaryText" size="25px" as={FiFile} />
           </HStack>
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <AddNewNoteForm onClose={onClose} isTask={isTask} />
+        <AddNewNoteForm
+          categoryId={categoryId}
+          onClose={onClose}
+          isTask={isTask}
+        />
       </PopoverContent>
     </Popover>
   );

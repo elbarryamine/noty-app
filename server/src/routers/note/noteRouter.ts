@@ -11,7 +11,7 @@ const noteInput = z
     text: z.string(),
     title: z.string(),
     color: z.string().optional(),
-    categorie: z.string(),
+    categoryId: z.number(),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -32,12 +32,16 @@ const noteDeleteInput = z.object({
   id: z.number(),
   isRestore: z.boolean().default(false),
 });
+const noteArchiveInput = z.object({
+  id: z.number(),
+  isArchived: z.boolean(),
+});
 
 const withUserProcedure = trpc.procedure.use(isUser);
 export const noteRouter = trpc.router({
   get: withUserProcedure.query(async ({ ctx }) => {
     try {
-      const notes = await prisma.note.findMany({ where: { AND: { userId: ctx.user.id, isTrashed: false } } });
+      const notes = await prisma.noty.findMany({ where: { AND: { userId: ctx.user.id, isTrashed: false } } });
       return notes;
     } catch (e: unknown) {
       throw new TRPCError({
@@ -49,7 +53,21 @@ export const noteRouter = trpc.router({
   }),
   getTrash: withUserProcedure.query(async ({ ctx }) => {
     try {
-      const notes = await prisma.note.findMany({ where: { AND: { userId: ctx.user.id, isTrashed: true } } });
+      const notes = await prisma.noty.findMany({ where: { AND: { userId: ctx.user.id, isTrashed: true } } });
+      return notes;
+    } catch (e: unknown) {
+      throw new TRPCError({
+        code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+        message: e instanceof TRPCError ? e.message : 'could not get user deleted notes',
+        cause: e,
+      });
+    }
+  }),
+  getFavorite: withUserProcedure.query(async ({ ctx }) => {
+    try {
+      const notes = await prisma.noty.findMany({
+        where: { AND: { userId: ctx.user.id, isArchived: true, isTrashed: false } },
+      });
       return notes;
     } catch (e: unknown) {
       throw new TRPCError({
@@ -61,13 +79,13 @@ export const noteRouter = trpc.router({
   }),
   create: withUserProcedure.input(noteInput).mutation(async ({ ctx, input }) => {
     try {
-      const notes = await prisma.note.create({
+      const notes = await prisma.noty.create({
         data: {
           text: input.text,
           title: input.title,
           color: input.color,
-          categorie: input.categorie,
           userId: ctx.user.id,
+          categoryId: input.categoryId,
         },
       });
       return notes;
@@ -81,7 +99,7 @@ export const noteRouter = trpc.router({
   }),
   delete: withUserProcedure.input(noteDeleteInput).mutation(async ({ ctx, input }) => {
     try {
-      const note = await prisma.note.findFirst({ where: { id: input.id } });
+      const note = await prisma.noty.findFirst({ where: { id: input.id } });
       if (!note) {
         throw new TRPCError({
           code: 'NOT_FOUND',
@@ -89,7 +107,7 @@ export const noteRouter = trpc.router({
         });
       }
       if (note.userId === ctx.user.id) {
-        await prisma.note.delete({ where: { id: note.id } });
+        await prisma.noty.delete({ where: { id: note.id } });
         return { note };
       } else {
         throw new TRPCError({
@@ -105,9 +123,9 @@ export const noteRouter = trpc.router({
       });
     }
   }),
-  trash: withUserProcedure.input(noteDeleteInput).mutation(async ({ ctx, input }) => {
+  archive: withUserProcedure.input(noteArchiveInput).mutation(async ({ ctx, input }) => {
     try {
-      const note = await prisma.note.findFirst({ where: { id: input.id } });
+      const note = await prisma.noty.findFirst({ where: { id: input.id } });
       if (!note) {
         throw new TRPCError({
           code: 'NOT_FOUND',
@@ -115,7 +133,39 @@ export const noteRouter = trpc.router({
         });
       }
       if (note.userId === ctx.user.id) {
-        await prisma.note.update({ where: { id: note.id }, data: { isTrashed: !input.isRestore } });
+        const updatedNote = await prisma.noty.update({
+          where: { id: note.id },
+          data: { isArchived: input.isArchived },
+          include: { category: true },
+        });
+        return {
+          note: updatedNote,
+        };
+      } else {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'you are not authorized',
+        });
+      }
+    } catch (e: unknown) {
+      throw new TRPCError({
+        code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
+        message: e instanceof TRPCError ? e.message : 'could not archive note',
+        cause: e,
+      });
+    }
+  }),
+  trash: withUserProcedure.input(noteDeleteInput).mutation(async ({ ctx, input }) => {
+    try {
+      const note = await prisma.noty.findFirst({ where: { id: input.id } });
+      if (!note) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'could not find note',
+        });
+      }
+      if (note.userId === ctx.user.id) {
+        await prisma.noty.update({ where: { id: note.id }, data: { isTrashed: !input.isRestore } });
         return { note };
       } else {
         throw new TRPCError({

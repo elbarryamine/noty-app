@@ -5,7 +5,6 @@ export default {
     baseStyle: {
       fontWeight: 400,
     },
-    defaultProps: {},
     variants: {
       primary: {
         bg: 'primary',
@@ -14,6 +13,7 @@ export default {
       },
       ghost: {
         color: 'text',
+        _loading: { bg: 'gray.100' },
       },
     },
   },

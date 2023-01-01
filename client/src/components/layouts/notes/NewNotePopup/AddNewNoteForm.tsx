@@ -17,7 +17,7 @@ const noteInput = z
     text: z.string(),
     title: z.string(),
     color: z.string().min(1, 'Please select a valid color'),
-    categorie: z.string(),
+    categoryId: z.number(),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -34,7 +34,15 @@ const noteInput = z
     }
   });
 
-const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isTask?: boolean }) => {
+const AddNewNoteForm = ({
+  categoryId,
+  onClose,
+  isTask = false,
+}: {
+  categoryId: number;
+  onClose?: () => void;
+  isTask?: boolean;
+}) => {
   const queryClient = useQueryClient();
   const { mutate, isLoading, isError, error } = trpc.note.create.useMutation({
     onSuccess: () => {
@@ -49,7 +57,7 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
       title: '',
       text: '',
       color: '#FFFFFF',
-      categorie: isTask ? 'task' : 'note',
+      categoryId: categoryId,
     },
   });
   const handleCreateNote = (values: NoteCreateInput) => {
@@ -73,6 +81,8 @@ const AddNewNoteForm = ({ onClose, isTask = false }: { onClose?: () => void; isT
             <FormControl isInvalid={Boolean(fieldState.error)}>
               <FormLabel>{isTask ? 'Task' : 'Note'} title</FormLabel>
               <Input
+                id='note'
+                type='text'
                 placeholder={isTask ? 'Work on Noty project' : 'Take out the dog 😅'}
                 value={field.value}
                 onChange={field.onChange}

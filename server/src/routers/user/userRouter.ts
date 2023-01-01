@@ -53,13 +53,37 @@ export const userRouter = trpc.router({
       const user = await prisma.user.findFirst({ where: { email: input.email } });
       if (user) throw new TRPCError({ message: 'user with this email already exist', code: 'INTERNAL_SERVER_ERROR' });
       const hashedPassword = await bcrypt.hash(input.password, 10);
-      await prisma.user.create({
+
+      const savedUser = await prisma.user.create({
         data: {
           email: input.email,
           firstName: input.firstName,
           lastName: input.lastName,
           password: hashedPassword,
         },
+      });
+      const notesCategorie = await prisma.category.create({
+        data: { userId: savedUser.id, name: 'Notes' },
+      });
+      const tasksCategorie = await prisma.category.create({
+        data: { userId: savedUser.id, name: 'Tasks' },
+      });
+
+      await prisma.noty.createMany({
+        data: [
+          {
+            userId: savedUser.id,
+            categoryId: notesCategorie.id,
+            text: 'Note',
+            title: 'My Note',
+          },
+          {
+            userId: savedUser.id,
+            categoryId: tasksCategorie.id,
+            text: 'Task',
+            title: 'My Task',
+          },
+        ],
       });
     } catch (e: unknown) {
       throw new TRPCError({
