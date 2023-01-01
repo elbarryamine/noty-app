@@ -12,15 +12,12 @@ datasource db {
 
 model User {
   id  Int @id @default(autoincrement())
-  // fields
   firstName String?
   lastName  String?
   email String  @unique
   password String
-  // relations
   notes Noty[]
   categories Category[]
-   // dates
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -29,7 +26,6 @@ model User {
 
 model Noty {
   id  Int @id @default(autoincrement())
-  // fields
   title String
   text String
   color String @default("#FFFFFF")
@@ -38,24 +34,19 @@ model Noty {
   isTask Boolean @default(false)
   isCompleted Boolean @default(false)
   image String @default("")
-  // relations
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  Int
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId Int
-  // dates
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Category {
   id  Int @id @default(autoincrement())
-  // fields
   name String
-   // relations
   notes Noty[]
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
-   // dates
   createdAt DateTime @default(now())
 }
