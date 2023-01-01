@@ -11,17 +11,18 @@ const NoteDelete = ({ note }: { note: NoteGetResponse[number] }) => {
   const queryClient = useQueryClient();
   const moveToTrash = trpc.note.trash.useMutation({
     onSuccess: () => {
-      queryClient.setQueryData<NoteGetResponse>(trpc.note.get.getQueryKey(), (data) =>
-        (data ?? []).filter((el) => el.id !== note.id)
+      queryClient.invalidateQueries(
+        trpc.category.getById.getQueryKey({ id: note.categoryId }),
       );
-      queryClient.invalidateQueries(trpc.note.get.getQueryKey());
+      queryClient.invalidateQueries(trpc.note.getFavorite.getQueryKey());
       queryClient.invalidateQueries(trpc.note.getTrash.getQueryKey());
     },
   });
   const deleteNote = trpc.note.delete.useMutation({
     onSuccess: () => {
-      queryClient.setQueryData<NoteGetResponse>(trpc.note.getTrash.getQueryKey(), (data) =>
-        (data ?? []).filter((el) => el.id !== note.id)
+      queryClient.setQueryData<NoteGetResponse>(
+        trpc.note.getTrash.getQueryKey(),
+        (data) => (data ?? []).filter((el) => el.id !== note.id),
       );
       queryClient.invalidateQueries(trpc.note.getTrash.getQueryKey());
     },
@@ -35,7 +36,7 @@ const NoteDelete = ({ note }: { note: NoteGetResponse[number] }) => {
     }
   };
   return (
-    <Button variant='ghost' fontWeight='900' onClick={handleDelete} ml='auto'>
+    <Button variant="ghost" fontWeight="900" onClick={handleDelete} ml="auto">
       <Text fontWeight={400} color={invertedColor}>
         {note.isTrashed ? 'Delete Permanently' : 'Delete'}
       </Text>

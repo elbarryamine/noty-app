@@ -78,6 +78,11 @@ const HomePage = () => {
               </SlideFade>
             )}
           </Flex>
+          {selected && !isShowingTrash && !isShowingFavorite && (
+            <SlideFade delay={0.1} offsetY="-60px" in={isOpen}>
+              <CategoryNotesList categoryId={selected} />
+            </SlideFade>
+          )}
           {isShowingTrash && (
             <SlideFade delay={0.1} offsetY="-60px" in={isOpen}>
               <TrashNotesList />
@@ -86,11 +91,6 @@ const HomePage = () => {
           {isShowingFavorite && (
             <SlideFade delay={0.1} offsetY="-60px" in={isOpen}>
               <FavoriteNotesList />
-            </SlideFade>
-          )}
-          {selected && !isShowingTrash && !isShowingFavorite && (
-            <SlideFade delay={0.1} offsetY="-60px" in={isOpen}>
-              <CategoryNotesList categoryId={selected} />
             </SlideFade>
           )}
         </Stack>

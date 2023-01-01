@@ -42,22 +42,16 @@ export const FavoriteNotesList = () => {
 };
 
 export const CategoryNotesList = ({ categoryId }: { categoryId: number }) => {
-  const category = trpc.category.getById.useQuery(
-    { id: categoryId },
-    { staleTime: 0 },
-  );
+  const category = trpc.category.getById.useQuery({ id: categoryId });
   const data = category.data?.notes ?? [];
   return (
     <Stack spacing={2}>
-      {data.length === 0 ? (
-        <Text>You dont have any notes on this category</Text>
-      ) : (
-        <>
-          {data.map((note) => (
-            <NoteCard key={note.id} note={note} />
-          ))}
-        </>
+      {data.length === 0 && (
+        <Text>You dont have any items on this category</Text>
       )}
+      {data.map((note) => (
+        <NoteCard key={note.id} note={note} />
+      ))}
     </Stack>
   );
 };

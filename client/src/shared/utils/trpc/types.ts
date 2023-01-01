@@ -9,4 +9,5 @@ export type NoteCreateInput = RouterInput['note']['create'];
 
 // Response
 export type NoteGetResponse = RouterOutput['note']['get'];
-export type CategoryResponse = RouterOutput['category']['get'];
+export type CategoryGetResponse = RouterOutput['category']['get'];
+export type CategoryGetByIdResponse = RouterOutput['category']['getById'];

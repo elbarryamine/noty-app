@@ -4,11 +4,11 @@ import { Button } from '@chakra-ui/button';
 import { Icon } from '@chakra-ui/icon';
 import { FiTrash2, FiBookmark } from 'react-icons/fi';
 // import { AiOutlinePlus } from 'react-icons/ai';
-import { CategoryResponse } from '@shared/utils/trpc/types';
+import { CategoryGetResponse } from '@shared/utils/trpc/types';
 import useBreakpoints from '@shared/hooks/useBreakpoints';
 
 type Props = {
-  categories: CategoryResponse;
+  categories: CategoryGetResponse;
   selected: number;
   isShowingTrash: boolean;
   isShowingFavorite: boolean;
