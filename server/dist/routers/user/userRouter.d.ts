@@ -1,7 +1,7 @@
 export declare const userRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: {
         user: {
-            id: number;
+            id: string;
         };
     };
     meta: object;
@@ -12,7 +12,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -22,7 +22,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
         _meta: object;
         _ctx_out: {
             user: {
-                id: number;
+                id: string;
             };
         };
         _input_in: {
@@ -42,7 +42,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -52,7 +52,7 @@ export declare const userRouter: import("@trpc/server").CreateRouterInner<import
         _meta: object;
         _ctx_out: {
             user: {
-                id: number;
+                id: string;
             };
         };
         _input_in: {

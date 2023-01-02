@@ -12,7 +12,7 @@ import styles from './styles';
 import { colors } from './colors';
 import fontSizes from './fontSizes';
 import sizes from './sizes';
-import font from './fontFamily';
+import fonts from './fontFamily';
 import components from './components';
 import breakpoints from './breakpoints';
 
@@ -22,9 +22,21 @@ const focusButton = {};
 Heading.defaultProps = {
   as: 'h1',
 };
-Button.defaultProps = { ...Button.defaultProps, _focus: focusButton, _hover: { opacity: 0.8 } };
-AccordionButton.defaultProps = { ...AccordionButton.defaultProps, _focus: focusButton, _hover: { opacity: 0.8 } };
-DrawerCloseButton.defaultProps = { ...DrawerCloseButton.defaultProps, _focus: focusButton, _hover: { opacity: 0.8 } };
+Button.defaultProps = {
+  ...Button.defaultProps,
+  _focus: focusButton,
+  _hover: { opacity: 0.8 },
+};
+AccordionButton.defaultProps = {
+  ...AccordionButton.defaultProps,
+  _focus: focusButton,
+  _hover: { opacity: 0.8 },
+};
+DrawerCloseButton.defaultProps = {
+  ...DrawerCloseButton.defaultProps,
+  _focus: focusButton,
+  _hover: { opacity: 0.8 },
+};
 Input.defaultProps = { ...Input.defaultProps, _focus: focus };
 NumberInput.defaultProps = { ...NumberInput.defaultProps, _focus: focus };
 Textarea.defaultProps = { ...Textarea.defaultProps, _focus: focus };
@@ -37,7 +49,7 @@ const overrides = {
   colors,
   fontSizes,
   components,
-  font,
+  fonts,
   sizes,
   breakpoints,
 };

@@ -1,7 +1,7 @@
 export declare const categoryRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: {
         user: {
-            id: number;
+            id: string;
         };
     };
     meta: object;
@@ -12,7 +12,7 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -22,16 +22,16 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _meta: object;
         _ctx_out: import("@trpc/server").Overwrite<{
             user: {
-                id: number;
+                id: string;
             };
         }, {
             user: import(".prisma/client").User;
         }>;
         _input_in: {
-            id?: number;
+            id?: string;
         };
         _input_out: {
-            id?: number;
+            id?: string;
         };
         _output_in: typeof import("@trpc/server").unsetMarker;
         _output_out: typeof import("@trpc/server").unsetMarker;
@@ -42,7 +42,7 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -52,7 +52,7 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _meta: object;
         _ctx_out: import("@trpc/server").Overwrite<{
             user: {
-                id: number;
+                id: string;
             };
         }, {
             user: import(".prisma/client").User;
@@ -68,7 +68,7 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -78,22 +78,22 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _meta: object;
         _ctx_out: import("@trpc/server").Overwrite<{
             user: {
-                id: number;
+                id: string;
             };
         }, {
             user: import(".prisma/client").User;
         }>;
         _input_in: {
-            id?: number;
-            name?: string;
+            id?: string;
             userId?: number;
             createdAt?: Date;
+            name?: string;
         };
         _input_out: {
-            id?: number;
-            name?: string;
+            id?: string;
             userId?: number;
             createdAt?: Date;
+            name?: string;
         };
         _output_in: typeof import("@trpc/server").unsetMarker;
         _output_out: typeof import("@trpc/server").unsetMarker;
@@ -104,7 +104,7 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -114,16 +114,16 @@ export declare const categoryRouter: import("@trpc/server").CreateRouterInner<im
         _meta: object;
         _ctx_out: import("@trpc/server").Overwrite<{
             user: {
-                id: number;
+                id: string;
             };
         }, {
             user: import(".prisma/client").User;
         }>;
         _input_in: {
-            id?: number;
+            id?: string;
         };
         _input_out: {
-            id?: number;
+            id?: string;
         };
         _output_in: typeof import("@trpc/server").unsetMarker;
         _output_out: typeof import("@trpc/server").unsetMarker;

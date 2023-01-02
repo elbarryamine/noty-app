@@ -1,7 +1,7 @@
 export declare const appRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: {
         user: {
-            id: number;
+            id: string;
         };
     };
     meta: object;
@@ -11,7 +11,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
     note: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;
@@ -22,7 +22,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -32,13 +32,17 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
-            _input_in: typeof import("@trpc/server").unsetMarker;
-            _input_out: typeof import("@trpc/server").unsetMarker;
+            _input_in: {
+                limit?: number;
+            };
+            _input_out: {
+                limit?: number;
+            };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, import(".prisma/client").Noty[]>;
@@ -46,7 +50,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -56,7 +60,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
@@ -70,7 +74,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -80,7 +84,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
@@ -94,7 +98,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -104,7 +108,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
@@ -113,13 +117,13 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
                 text?: string;
                 title?: string;
                 color?: string;
-                categoryId?: number;
+                categoryId?: string;
             };
             _input_out: {
                 text?: string;
                 title?: string;
                 color?: string;
-                categoryId?: number;
+                categoryId?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
@@ -128,7 +132,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -138,17 +142,17 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: number;
+                id?: string;
                 isRestore?: boolean;
             };
             _input_out: {
-                id?: number;
+                id?: string;
                 isRestore?: boolean;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
@@ -160,7 +164,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -170,17 +174,17 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: number;
+                id?: string;
                 isArchived?: boolean;
             };
             _input_out: {
-                id?: number;
+                id?: string;
                 isArchived?: boolean;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
@@ -194,7 +198,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -204,17 +208,17 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: number;
+                id?: string;
                 isRestore?: boolean;
             };
             _input_out: {
-                id?: number;
+                id?: string;
                 isRestore?: boolean;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
@@ -226,7 +230,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
     user: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;
@@ -237,7 +241,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -247,7 +251,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             _input_in: {
@@ -267,7 +271,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -277,7 +281,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             _input_in: {
@@ -299,7 +303,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
     category: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;
@@ -310,7 +314,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -320,16 +324,16 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: number;
+                id?: string;
             };
             _input_out: {
-                id?: number;
+                id?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
@@ -340,7 +344,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -350,7 +354,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
@@ -366,7 +370,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -376,22 +380,22 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: number;
-                name?: string;
+                id?: string;
                 userId?: number;
                 createdAt?: Date;
+                name?: string;
             };
             _input_out: {
-                id?: number;
-                name?: string;
+                id?: string;
                 userId?: number;
                 createdAt?: Date;
+                name?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
@@ -402,7 +406,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
                     user: {
-                        id: number;
+                        id: string;
                     };
                 };
                 meta: object;
@@ -412,16 +416,16 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _meta: object;
             _ctx_out: import("@trpc/server").Overwrite<{
                 user: {
-                    id: number;
+                    id: string;
                 };
             }, {
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: number;
+                id?: string;
             };
             _input_out: {
-                id?: number;
+                id?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;

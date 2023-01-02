@@ -7,18 +7,18 @@ import { TRPCError } from '@trpc/server';
 const prisma = new PrismaClient();
 
 const categoryInput = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   userId: z.number(),
   createdAt: z.date(),
 });
 
 const categoryFind = z.object({
-  id: z.number(),
+  id: z.string(),
 });
 
 const categoryDeleteInput = z.object({
-  id: z.number(),
+  id: z.string(),
 });
 
 const withUserProcedure = trpc.procedure.use(isUser);

@@ -12,7 +12,7 @@ export default {
         _loading: { bg: 'gray.100' },
       },
       ghost: {
-        color: 'text',
+        color: 'primary',
         _loading: { bg: 'gray.100' },
       },
     },
@@ -21,7 +21,7 @@ export default {
     defaultProps: {},
     variants: {
       subheader: {
-        fontSize: fontSizes.header,
+        fontSize: fontSizes.subheader,
         fontWeight: '500',
       },
       sub: {

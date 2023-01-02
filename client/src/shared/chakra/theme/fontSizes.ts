@@ -2,6 +2,7 @@ export default {
   sub: '12px',
   mono: '14px',
   body: '16px',
-  header: '18px',
+  subheader: '18px',
+  header: '20px',
   display: '24px',
 };

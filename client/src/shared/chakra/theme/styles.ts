@@ -15,6 +15,7 @@ export default {
         flexWrap: 'nowrap',
         color: dynamicColors(colorMode == 'dark').text,
         boxSizing: 'border-box',
+        fontFamily: "'Baloo 2', cursive",
       },
       body: {
         background: dynamicColors(colorMode == 'dark').bg,

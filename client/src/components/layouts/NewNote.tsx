@@ -10,7 +10,7 @@ const NewNote = ({
   categoryId,
   isTask,
 }: {
-  categoryId: number;
+  categoryId: string;
   isTask?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);

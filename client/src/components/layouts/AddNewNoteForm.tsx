@@ -21,7 +21,7 @@ const noteInput = z
     text: z.string(),
     title: z.string(),
     color: z.string().min(1, 'Please select a valid color'),
-    categoryId: z.number(),
+    categoryId: z.string(),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -43,7 +43,7 @@ const AddNewNoteForm = ({
   onClose,
   isTask = false,
 }: {
-  categoryId: number;
+  categoryId: string;
   onClose?: () => void;
   isTask?: boolean;
 }) => {

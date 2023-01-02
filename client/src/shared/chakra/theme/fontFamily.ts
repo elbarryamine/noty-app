@@ -1,5 +1,5 @@
 export default {
-    heading: `Inter, cursive`,
-    body: `Inter, cursive`,
-    mono: `Inter, cursive`,
+  mono: "'Baloo 2', cursive",
+  body: "'Baloo 2', cursive",
+  heading: "'Baloo 2', cursive",
 };

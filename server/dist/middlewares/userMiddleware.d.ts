@@ -2,7 +2,7 @@ export declare const isUser: import("@trpc/server").MiddlewareFunction<{
     _config: import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;
@@ -11,7 +11,7 @@ export declare const isUser: import("@trpc/server").MiddlewareFunction<{
     }>;
     _ctx_out: {
         user: {
-            id: number;
+            id: string;
         };
     };
     _input_out: unknown;
@@ -23,7 +23,7 @@ export declare const isUser: import("@trpc/server").MiddlewareFunction<{
     _config: import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;

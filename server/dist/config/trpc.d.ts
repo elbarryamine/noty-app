@@ -1,14 +1,14 @@
 import * as trpcNext from '@trpc/server/adapters/next';
-export declare function createContext({ req }: trpcNext.CreateNextContextOptions): Promise<{
+export declare function createContext({ req, }: trpcNext.CreateNextContextOptions): Promise<{
     user: {
-        id: number;
+        id: string;
     };
 }>;
 declare const trpc: {
     _config: import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;
@@ -19,7 +19,7 @@ declare const trpc: {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -28,7 +28,7 @@ declare const trpc: {
         }>;
         _ctx_out: {
             user: {
-                id: number;
+                id: string;
             };
         };
         _input_in: typeof import("@trpc/server").unsetMarker;
@@ -41,7 +41,7 @@ declare const trpc: {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -50,7 +50,7 @@ declare const trpc: {
         }>;
         _ctx_out: {
             user: {
-                id: number;
+                id: string;
             };
         };
         _input_out: unknown;
@@ -62,7 +62,7 @@ declare const trpc: {
         _config: import("@trpc/server").RootConfig<{
             ctx: {
                 user: {
-                    id: number;
+                    id: string;
                 };
             };
             meta: object;
@@ -71,7 +71,7 @@ declare const trpc: {
         }>;
         _ctx_out: {
             user: {
-                id: number;
+                id: string;
             };
         };
         _input_out: unknown;
@@ -83,7 +83,7 @@ declare const trpc: {
     router: <TProcRouterRecord extends import("@trpc/server").ProcedureRouterRecord>(procedures: TProcRouterRecord) => import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
             user: {
-                id: number;
+                id: string;
             };
         };
         meta: object;

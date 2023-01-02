@@ -7,12 +7,15 @@ const client_1 = require("@prisma/client");
 const userMiddleware_1 = require("../../middlewares/userMiddleware");
 const server_1 = require("@trpc/server");
 const prisma = new client_1.PrismaClient();
+const noteGetInput = zod_1.default.object({
+    limit: zod_1.default.number().optional(),
+});
 const noteInput = zod_1.default
     .object({
     text: zod_1.default.string(),
     title: zod_1.default.string(),
     color: zod_1.default.string().optional(),
-    categoryId: zod_1.default.number(),
+    categoryId: zod_1.default.string(),
 })
     .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -29,19 +32,21 @@ const noteInput = zod_1.default
     }
 });
 const noteDeleteInput = zod_1.default.object({
-    id: zod_1.default.number(),
+    id: zod_1.default.string(),
     isRestore: zod_1.default.boolean().default(false),
 });
 const noteArchiveInput = zod_1.default.object({
-    id: zod_1.default.number(),
+    id: zod_1.default.string(),
     isArchived: zod_1.default.boolean(),
 });
 const withUserProcedure = trpc_1.default.procedure.use(userMiddleware_1.isUser);
 exports.noteRouter = trpc_1.default.router({
-    get: withUserProcedure.query(async ({ ctx }) => {
+    get: withUserProcedure.input(noteGetInput).query(async ({ ctx, input }) => {
+        var _a;
         try {
             const notes = await prisma.noty.findMany({
                 where: { AND: { userId: ctx.user.id, isTrashed: false } },
+                take: (_a = input.limit) !== null && _a !== void 0 ? _a : undefined,
             });
             return notes;
         }

@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id  Int @id @default(autoincrement())
+  id  String @id @default(uuid())
   firstName String?
   lastName  String?
   email String  @unique
@@ -25,7 +25,7 @@ model User {
 
 
 model Noty {
-  id  Int @id @default(autoincrement())
+  id  String @id @default(uuid())
   title String
   text String
   color String @default("#FFFFFF")
@@ -34,19 +34,19 @@ model Noty {
   isTask Boolean @default(false)
   isCompleted Boolean @default(false)
   image String @default("")
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId Int
+  categoryId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Category {
-  id  Int @id @default(autoincrement())
+  id  String @id @default(uuid())
   name String
   notes Noty[]
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
   createdAt DateTime @default(now())
 }

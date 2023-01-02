@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createContext = void 0;
 const server_1 = require("@trpc/server");
 const jwt = require("jsonwebtoken");
-async function createContext({ req }) {
+async function createContext({ req, }) {
     var _a, _b;
     try {
         const secret = process.env.JWT_SECRET;

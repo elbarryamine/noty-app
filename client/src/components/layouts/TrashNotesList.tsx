@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@chakra-ui/button';
 import { trpc } from '@shared/utils/trpc/trpc';
-import NoteCard from '../NoteCard/NoteCard';
+import NoteCard from './NoteCard';
 import { Stack, Text } from '@chakra-ui/react';
 
 const TrashNotesList = () => {
