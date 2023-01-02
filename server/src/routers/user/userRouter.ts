@@ -83,27 +83,20 @@ export const userRouter = trpc.router({
         },
       });
       const notesCategorie = await prisma.folder.create({
-        data: { userId: savedUser.id, name: 'Notes' },
-      });
-      const tasksCategorie = await prisma.folder.create({
-        data: { userId: savedUser.id, name: 'Tasks' },
+        data: {
+          userId: savedUser.id,
+          name: 'Getting Started',
+          icon: 'FiFolder',
+        },
       });
 
-      await prisma.note.createMany({
-        data: [
-          {
-            userId: savedUser.id,
-            folderId: notesCategorie.id,
-            text: 'Note',
-            title: 'My Note',
-          },
-          {
-            userId: savedUser.id,
-            folderId: tasksCategorie.id,
-            text: 'Task',
-            title: 'My Task',
-          },
-        ],
+      await prisma.note.create({
+        data: {
+          userId: savedUser.id,
+          folderId: notesCategorie.id,
+          title: 'My first note',
+          text: 'Hello world',
+        },
       });
     } catch (e: unknown) {
       throw new TRPCError({

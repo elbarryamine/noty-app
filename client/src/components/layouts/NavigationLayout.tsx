@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Avatar, Box, Flex, Grid, HStack, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, HStack, Stack, Text } from '@chakra-ui/react';
 import HeaderNavigation from './HeaderNavigation';
 import SideNavigation from './SideNavigation';
 
@@ -26,25 +26,15 @@ function NavigationLayout({
           borderColor="whitesmoke"
         >
           <HStack>
-            <Avatar h="40px" w="40px" />
-            <Text variant="subheader">Amine's Noty Space</Text>
+            <Text variant="subheader">Noty Space</Text>
           </HStack>
         </Flex>
+
         <Stack borderWidth="1px" borderColor="whitesmoke">
           <HeaderNavigation />
         </Stack>
         <SideNavigation />
-        <Box
-          px="40px"
-          py="20px"
-          w="100%"
-          h="100%"
-          overflow="scroll"
-          borderWidth="1px"
-          borderColor="whitesmoke"
-        >
-          {children}
-        </Box>
+        {children}
       </Grid>
     </Box>
   );

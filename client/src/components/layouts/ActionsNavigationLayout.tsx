@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import {
-  Avatar,
   Box,
   Flex,
   FormControl,
@@ -12,17 +11,19 @@ import {
   InputLeftElement,
   Stack,
   Text,
-  Button,
 } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import HeaderNavigation from './HeaderNavigation';
 import SideNavigation from './SideNavigation';
+import NewNote from './NewNote';
+import { useRouter } from 'next/router';
 
-function SearchAddNewNoteNavigationLayout({
+function ActionsNavigationLayout({
   children,
 }: {
   children?: ReactElement | ReactElement[];
 }) {
+  const router = useRouter();
   return (
     <Box as="main" bg="card">
       <Grid
@@ -41,10 +42,10 @@ function SearchAddNewNoteNavigationLayout({
           borderColor="whitesmoke"
         >
           <HStack>
-            <Avatar h="40px" w="40px" />
-            <Text variant="subheader">Amine's Noty Space</Text>
+            <Text variant="subheader">Noty Space</Text>
           </HStack>
         </Flex>
+
         <Stack borderWidth="1px" borderColor="whitesmoke">
           <HeaderNavigation />
         </Stack>
@@ -78,7 +79,12 @@ function SearchAddNewNoteNavigationLayout({
                 />
               </InputGroup>
             </FormControl>
-            <Button variant="primary">Add new note</Button>
+            {typeof router.query.id === 'string' && (
+              <NewNote folderId={router.query.id} />
+            )}
+            {/* {typeof router.query.id === 'string' && (
+              <NewNote isTask folderId={router.query.id} />
+            )} */}
           </HStack>
           {children}
         </Grid>
@@ -87,4 +93,4 @@ function SearchAddNewNoteNavigationLayout({
   );
 }
 
-export default SearchAddNewNoteNavigationLayout;
+export default ActionsNavigationLayout;

@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationLayout from '@components/layouts/SearchAddNewNoteNavigationLayout';
+import NavigationLayout from '@components/layouts/NavigationLayout';
 import Head from 'next/head';
 import Base from '@layouts/base';
 

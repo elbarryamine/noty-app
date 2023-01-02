@@ -285,15 +285,15 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
                 };
             };
             _input_in: {
+                email?: string;
                 firstName?: string;
                 lastName?: string;
-                email?: string;
                 password?: string;
             };
             _input_out: {
+                email?: string;
                 firstName?: string;
                 lastName?: string;
-                email?: string;
                 password?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;

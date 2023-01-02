@@ -52,12 +52,7 @@ export default function Create() {
   return (
     <BaseContainer>
       <Stack>
-        <Flex
-          align="center"
-          justify="space-between"
-          flexDir={{ base: 'column', lg: 'row' }}
-          gap={2}
-        >
+        <Flex align="center" justify="space-between" flexDir="row" gap={2}>
           <Controller
             control={control}
             name="name"
@@ -68,7 +63,7 @@ export default function Create() {
                   onChange={field.onChange}
                   onBlur={field.onBlur}
                   variant="unstyled"
-                  fontSize={{ base: '2xl', md: '5xl', lg: '3xl', xl: '7xl' }}
+                  fontSize="7xl"
                   placeholder="Write your folder's name ..."
                   _placeholder={{ color: 'blackAlpha.200' }}
                 />
@@ -92,7 +87,7 @@ export default function Create() {
       </Stack>
       <Stack spacing={5} w="full">
         <Text variant="display">Folder's icon</Text>
-        <Flex>
+        <Flex pos="relative">
           <Stack flex="0 0 40%">
             <Input
               placeholder="Search for icon"
@@ -100,13 +95,7 @@ export default function Create() {
               onChange={(e) => setSearch(e.target.value)}
             />
             <Grid
-              templateColumns={{
-                base: 'repeat(2,1fr)',
-                sm: 'repeat(4,1fr)',
-                lg: 'repeat(5,1fr)',
-                xl: 'repeat(10,1fr)',
-                '3xl': 'repeat(15,1fr)',
-              }}
+              templateColumns={'repeat(15,1fr)'}
               gridGap="10px"
               position="relative"
             >
@@ -133,20 +122,15 @@ export default function Create() {
                 ))}
             </Grid>
           </Stack>
-          <Box flex="1" display={{ base: 'none', md: 'block' }}>
+          <Box flex="1" position="fixed" right="0" top="50%" w="50%" h="100%">
             <SlideFade in={true} delay={0.5} offsetX="-30px">
               <Flex justify="center" align="center">
                 <Stack alignItems="center">
-                  <Text
-                    fontSize={{ md: 'body', '3xl': 'header' }}
-                    textAlign="center"
-                  >
-                    {icon.name.replace('Fi', '')}
-                  </Text>
+                  <Text textAlign="center">{icon.name.replace('Fi', '')}</Text>
                   <Icon
                     strokeWidth="0.8px"
-                    height={{ md: '100px', '3xl': '300px' }}
-                    width={{ md: '100px', '3xl': '300px' }}
+                    height="300px"
+                    width="300px"
                     as={icon.icon}
                   />
                 </Stack>

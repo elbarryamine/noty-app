@@ -2,9 +2,9 @@ import React from 'react';
 import { trpc } from '@shared/utils/trpc/trpc';
 import { useQueryClient } from '@tanstack/react-query';
 import { NoteGetResponse } from '@shared/utils/trpc/types';
-import { Button, ButtonProps } from '@chakra-ui/button';
+import { ButtonProps } from '@chakra-ui/button';
 import * as hexContrastColor from 'hex-contrast-color';
-import { Text } from '@chakra-ui/react';
+import { MenuItem, Text } from '@chakra-ui/react';
 
 const NoteDelete = ({
   note,
@@ -39,11 +39,11 @@ const NoteDelete = ({
     }
   };
   return (
-    <Button variant="unstyled" onClick={handleDelete} {...props}>
+    <MenuItem variant="unstyled" onClick={handleDelete} {...props}>
       <Text fontWeight={400} color={invertedColor}>
         {note.isTrashed ? 'Delete Permanently' : 'Delete'}
       </Text>
-    </Button>
+    </MenuItem>
   );
 };
 

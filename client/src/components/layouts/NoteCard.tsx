@@ -4,9 +4,10 @@ import { NoteGetResponse } from '@shared/utils/trpc/types';
 import * as hexContrastColor from 'hex-contrast-color';
 import { Box, Flex, HStack, Stack, Text } from '@chakra-ui/layout';
 import NoteArchive from './NoteArchive';
-import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icon';
 import { BsThreeDots } from 'react-icons/bs';
+import NoteDelete from './NoteDelete';
 
 export default function NoteCard({ note }: { note: NoteGetResponse[number] }) {
   const invertedColor = hexContrastColor(note.color);
@@ -31,7 +32,7 @@ export default function NoteCard({ note }: { note: NoteGetResponse[number] }) {
                 <Icon as={BsThreeDots} />
               </MenuButton>
               <MenuList>
-                <MenuItem>Edit</MenuItem>
+                <NoteDelete note={note} colorScheme="red" />
               </MenuList>
             </Menu>
           </HStack>

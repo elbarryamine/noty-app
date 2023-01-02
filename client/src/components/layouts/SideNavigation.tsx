@@ -33,10 +33,17 @@ function SideNavigation() {
           dashboard
         </Button>
         {folders.isLoading &&
-          Array.from({ length: 5 }).map((_, i) => <Skeleton h="10" key={i} />)}
+          Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton
+              key={i}
+              startColor="blackAlpha"
+              endColor="blackAlpha.100"
+              h="10"
+            />
+          ))}
         {(folders.data ?? []).map((fld) => {
           const isActive = id === fld.id.toLowerCase();
-          return <FolderIcon folder={fld} isActive={isActive} />;
+          return <FolderIcon key={fld.id} folder={fld} isActive={isActive} />;
         })}
         <Button
           variant="outline"

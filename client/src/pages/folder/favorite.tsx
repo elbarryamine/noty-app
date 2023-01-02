@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import SearchAddNewNoteNavigationLayout from '@components/layouts/SearchAddNewNoteNavigationLayout';
+import ActionsNavigationLayout from '@components/layouts/ActionsNavigationLayout';
 import Favorite from '@layouts/folder/Favorite';
 
 const FavoriteFolderPage = () => {
@@ -12,9 +12,9 @@ const FavoriteFolderPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SearchAddNewNoteNavigationLayout>
+      <ActionsNavigationLayout>
         <Favorite />
-      </SearchAddNewNoteNavigationLayout>
+      </ActionsNavigationLayout>
     </>
   );
 };

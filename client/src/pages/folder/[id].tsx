@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import SearchAddNewNoteNavigationLayout from '@components/layouts/SearchAddNewNoteNavigationLayout';
+import ActionsNavigationLayout from '@components/layouts/ActionsNavigationLayout';
 import Folder from '@layouts/folder';
 
 const FolderPage = () => {
@@ -12,9 +12,9 @@ const FolderPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SearchAddNewNoteNavigationLayout>
+      <ActionsNavigationLayout>
         <Folder />
-      </SearchAddNewNoteNavigationLayout>
+      </ActionsNavigationLayout>
     </>
   );
 };

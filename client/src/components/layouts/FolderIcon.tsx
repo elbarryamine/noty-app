@@ -1,9 +1,9 @@
 import { Button, Icon } from '@chakra-ui/react';
-import { appIcons } from '@shared/constants/icons';
 import { FolderGetResponse } from '@shared/utils/trpc/types';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { BiQuestionMark } from 'react-icons/bi';
+import { appIcons } from '@shared/constants/icons';
 
 type Props = {
   folder: FolderGetResponse[number];
