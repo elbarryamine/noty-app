@@ -4,7 +4,7 @@ import React from 'react';
 
 const Preloader = () => {
   return (
-    <Flex h='100vh' w='100vw' align='center' justify='center'>
+    <Flex h="100%" w="100%" align="center" justify="center">
       <Spinner />
     </Flex>
   );

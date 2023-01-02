@@ -5,9 +5,8 @@ import { ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useUserStore } from '@store/user';
 import dynamic from 'next/dynamic';
-import useCloudReminderToast from '@shared/hooks/useCloudReminderToast';
-// import Chakra from '@shared/providers/ChakraProvider';
 
+import useCloudReminderToast from '@shared/hooks/useCloudReminderToast';
 const Chakra = dynamic(() => import('@shared/providers/ChakraProvider'));
 
 const App = ({ Component, pageProps }: AppProps) => {

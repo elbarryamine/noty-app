@@ -2,11 +2,14 @@ import React from 'react';
 import { trpc } from '@shared/utils/trpc/trpc';
 import { useQueryClient } from '@tanstack/react-query';
 import { NoteGetResponse } from '@shared/utils/trpc/types';
-import { Button } from '@chakra-ui/button';
+import { Button, ButtonProps } from '@chakra-ui/button';
 import * as hexContrastColor from 'hex-contrast-color';
 import { Text } from '@chakra-ui/react';
 
-const NoteDelete = ({ note }: { note: NoteGetResponse[number] }) => {
+const NoteDelete = ({
+  note,
+  ...props
+}: { note: NoteGetResponse[number] } & ButtonProps) => {
   const invertedColor = hexContrastColor(note.color);
   const queryClient = useQueryClient();
   const moveToTrash = trpc.note.trash.useMutation({
@@ -36,7 +39,7 @@ const NoteDelete = ({ note }: { note: NoteGetResponse[number] }) => {
     }
   };
   return (
-    <Button variant="ghost" fontWeight="900" onClick={handleDelete} ml="auto">
+    <Button variant="unstyled" onClick={handleDelete} {...props}>
       <Text fontWeight={400} color={invertedColor}>
         {note.isTrashed ? 'Delete Permanently' : 'Delete'}
       </Text>

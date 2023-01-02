@@ -9,24 +9,23 @@ import useBreakpoints from '@shared/hooks/useBreakpoints';
 
 type Props = {
   categories: CategoryGetResponse;
-  selected: number;
-  isShowingTrash: boolean;
-  isShowingFavorite: boolean;
-  onShowTrash: (showing: boolean) => void;
-  onShowFavorite: (showing: boolean) => void;
-  onChange: (slc: number) => void;
+  selected: CategoryGetResponse[number] | null;
+  onChange: (val: CategoryGetResponse[number]) => void;
+  isTrash: boolean;
+  isFavorite: boolean;
+  onTrashSelect: () => void;
+  onFavoriteSelect: () => void;
 };
 
 const NoteCategorySelect = ({
   categories,
   selected,
   onChange,
-  isShowingFavorite,
-  isShowingTrash,
-  onShowFavorite,
-  onShowTrash,
+  isTrash,
+  isFavorite,
+  onTrashSelect,
+  onFavoriteSelect,
 }: Props) => {
-  const isSpecialCategorie = isShowingTrash || isShowingFavorite;
   const [, isMd] = useBreakpoints();
   return (
     <HStack spacing={2} flexWrap="wrap" p="5px">
@@ -38,22 +37,12 @@ const NoteCategorySelect = ({
         </Button> */}
       {categories.map((el) => (
         <Button
-          onClick={() => {
-            onShowTrash(false);
-            onShowFavorite(false);
-            onChange(el.id);
-          }}
+          onClick={() => onChange(el)}
           px="30px"
           flex={isMd ? '50%' : undefined}
           key={el.id}
-          variant={
-            selected !== el.id || isSpecialCategorie ? 'ghost' : 'primary'
-          }
-          color={
-            selected !== el.id || isSpecialCategorie
-              ? 'primaryGrayColor'
-              : undefined
-          }
+          variant={selected?.id !== el.id ? 'ghost' : 'primary'}
+          color={selected?.id !== el.id ? 'primaryGrayColor' : undefined}
           textTransform="capitalize"
           borderRadius="20px"
         >
@@ -65,11 +54,8 @@ const NoteCategorySelect = ({
         px="30px"
         borderRadius="20px"
         textTransform="capitalize"
-        onClick={() => {
-          onShowTrash(false);
-          onShowFavorite(true);
-        }}
-        bg={isShowingFavorite ? 'orange.100' : 'transparent'}
+        onClick={onFavoriteSelect}
+        bg={isFavorite ? 'orange.100' : 'transparent'}
         colorScheme="orange"
       >
         <HStack>
@@ -82,11 +68,8 @@ const NoteCategorySelect = ({
         px="30px"
         borderRadius="20px"
         textTransform="capitalize"
-        onClick={() => {
-          onShowFavorite(false);
-          onShowTrash(true);
-        }}
-        bg={isShowingTrash ? 'red.100' : 'transparent'}
+        onClick={onTrashSelect}
+        bg={isTrash ? 'red.100' : 'transparent'}
         colorScheme="red"
       >
         <HStack>

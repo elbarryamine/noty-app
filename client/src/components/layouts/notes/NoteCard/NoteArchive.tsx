@@ -45,9 +45,9 @@ const NoteArchive = ({ note }: { note: NoteGetResponse[number] }) => {
   };
   return (
     <Button
-      variant="primary"
-      w="40px"
-      h="40px"
+      variant="unstyled"
+      w="30px"
+      h="30px"
       borderRadius="full"
       p="0"
       m="0"
@@ -59,7 +59,7 @@ const NoteArchive = ({ note }: { note: NoteGetResponse[number] }) => {
       {note.isArchived ? (
         <Icon fill="red.500" as={AiFillHeart} />
       ) : (
-        <Icon fill="white" as={AiOutlineHeart} />
+        <Icon fill="black" as={AiOutlineHeart} />
       )}
     </Button>
   );
