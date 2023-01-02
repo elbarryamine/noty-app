@@ -25,7 +25,7 @@ const NewNote = ({
     <Box position="relative">
       <Popover isOpen={isOpen}>
         <PopoverTrigger>
-          <Button variant="primary" onClick={onOpen} zIndex={9999}>
+          <Button variant="primary" onClick={onOpen}>
             <HStack spacing={2} align="center" justify="center">
               <Text color="primaryText">
                 Add new {isTask ? 'task' : 'note'}
