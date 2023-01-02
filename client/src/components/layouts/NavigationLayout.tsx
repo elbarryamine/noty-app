@@ -2,17 +2,17 @@ import React, { ReactElement } from 'react';
 import {
   Box,
   Flex,
-  FormControl,
+  // FormControl,
   Grid,
-  Icon,
+  // Icon,
   HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
+  // Input,
+  // InputGroup,
+  // InputLeftElement,
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { AiOutlineSearch } from 'react-icons/ai';
+// import { AiOutlineSearch } from 'react-icons/ai';
 import HeaderNavigation from './HeaderNavigation';
 import SideNavigation from './SideNavigation';
 import NewNote from './NewNote';
@@ -71,7 +71,7 @@ function NavigationLayout({
               justifyContent="center"
               alignItems="center"
             >
-              <FormControl w="100%" maxW="300px" mx="5px">
+              {/* <FormControl w="100%" maxW="300px" mx="5px">
                 <InputGroup>
                   <InputLeftElement
                     px="10px"
@@ -85,7 +85,7 @@ function NavigationLayout({
                     placeholder="Search for notes"
                   />
                 </InputGroup>
-              </FormControl>
+              </FormControl> */}
               {typeof router.query.id === 'string' && (
                 <NewNote folderId={router.query.id} />
               )}
