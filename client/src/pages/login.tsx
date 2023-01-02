@@ -17,22 +17,25 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 
-const userInput = z.object({
-  email: z.string().email('Please provide a valid email'),
-  password: z.string(),
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please provide a valid email'),
+  password: z.string().min(1, 'Password is required'),
 });
 
-type User = typeof userInput._type;
+type User = typeof loginSchema._type;
 
 const LoginForm = () => {
   const setToken = useUserStore((state) => state.setToken);
-  const { mutate, isLoading, error } = trpc.user.login.useMutation({
+  const { mutate, isLoading, error, isError } = trpc.user.login.useMutation({
     onSuccess: (data) => {
       setToken(data.token);
     },
   });
   const { control, handleSubmit } = useForm({
-    resolver: zodResolver(userInput),
+    resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
   const handleLogin = (values: User) => {
@@ -73,7 +76,7 @@ const LoginForm = () => {
               control={control}
               name="email"
               render={({ field, fieldState }) => (
-                <FormControl>
+                <FormControl isInvalid={!!fieldState.error}>
                   <FormLabel>Email</FormLabel>
                   <Input
                     type="email"
@@ -95,7 +98,7 @@ const LoginForm = () => {
               control={control}
               name="password"
               render={({ field, fieldState }) => (
-                <FormControl>
+                <FormControl isInvalid={!!fieldState.error}>
                   <FormLabel htmlFor="password">Password</FormLabel>
                   <Input
                     type="password"
@@ -112,7 +115,9 @@ const LoginForm = () => {
               )}
             />
           </Stack>
-          <FormErrorMessage>{error?.message}</FormErrorMessage>
+          <FormControl isInvalid={isError}>
+            <FormErrorMessage>{error?.message}</FormErrorMessage>
+          </FormControl>
           <Button
             variant="primary"
             onClick={handleSubmit(handleLogin)}

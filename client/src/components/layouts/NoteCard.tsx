@@ -32,7 +32,7 @@ export default function NoteCard({ note }: { note: NoteGetResponse[number] }) {
                 <Icon as={BsThreeDots} />
               </MenuButton>
               <MenuList>
-                <NoteDelete note={note} colorScheme="red" />
+                <NoteDelete note={note} />
               </MenuList>
             </Menu>
           </HStack>

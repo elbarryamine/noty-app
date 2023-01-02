@@ -16,12 +16,12 @@ import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 import * as hexContrastColor from 'hex-contrast-color';
 
-const noteInput = z
+const noteCreateSchema = z
   .object({
     text: z.string(),
     title: z.string(),
     color: z.string().min(1, 'Please select a valid color'),
-    folderId: z.string(),
+    folderId: z.string().min(1, 'folderId is required'),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -58,7 +58,7 @@ const AddNewNoteForm = ({
   });
 
   const { control, handleSubmit, setValue } = useForm({
-    resolver: zodResolver(noteInput),
+    resolver: zodResolver(noteCreateSchema),
     defaultValues: {
       title: '',
       text: '',
@@ -163,7 +163,9 @@ const AddNewNoteForm = ({
             </FormControl>
           )}
         />
-        {isError && <FormErrorMessage>{error?.message}</FormErrorMessage>}
+        <FormControl isInvalid={isError}>
+          <FormErrorMessage>{error?.message}</FormErrorMessage>
+        </FormControl>
         <Button
           isLoading={isLoading}
           isDisabled={isLoading}

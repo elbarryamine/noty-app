@@ -20,6 +20,13 @@ const NoteArchive = ({ note }: { note: NoteGetResponse[number] }) => {
           { ...note, isArchived: !note.isArchived },
         ],
       );
+      queryClient.setQueryData<NoteGetResponse>(
+        trpc.note.get.getQueryKey({ limit: 10 }),
+        (data) => [
+          ...(data ?? []).filter((el) => el.id !== note.id),
+          { ...note, isArchived: !note.isArchived },
+        ],
+      );
       queryClient.setQueryData<FolderGetByIdResponse>(
         trpc.folder.getById.getQueryKey({ id: note.folderId }),
         (data) => {
@@ -33,6 +40,7 @@ const NoteArchive = ({ note }: { note: NoteGetResponse[number] }) => {
       );
     },
     onSuccess: () => {
+      queryClient.invalidateQueries(trpc.note.get.getQueryKey({ limit: 10 }));
       queryClient.invalidateQueries(trpc.note.getFavorite.getQueryKey());
       queryClient.invalidateQueries(
         trpc.folder.getById.getQueryKey({ id: note.folderId }),

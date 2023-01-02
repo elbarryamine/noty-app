@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import ActionsNavigationLayout from '@components/layouts/ActionsNavigationLayout';
+import NavigationLayout from '@components/layouts/NavigationLayout';
 import Trash from '@layouts/folder/Trash';
 
 const TrashFolderPage = () => {
@@ -12,9 +12,9 @@ const TrashFolderPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ActionsNavigationLayout>
+      <NavigationLayout>
         <Trash />
-      </ActionsNavigationLayout>
+      </NavigationLayout>
     </>
   );
 };

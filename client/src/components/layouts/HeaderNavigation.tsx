@@ -6,8 +6,10 @@ import React from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { useDisclosure } from '@chakra-ui/react';
 import DrawerNavigation from './DrawerNavigation';
+import useBreakpoints from '@shared/hooks/useBreakpoints';
 
 const HeaderNavigation = () => {
+  const { ltxl } = useBreakpoints();
   const removeUser = useUserStore((state) => state.removeUser);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -20,9 +22,11 @@ const HeaderNavigation = () => {
       py="20px"
     >
       <HStack align="center">
-        <Button variant="unstyled" onClick={onOpen}>
-          <Icon as={AiOutlineMenu} height="30px" w="30px" />
-        </Button>
+        {ltxl && (
+          <Button variant="unstyled" onClick={onOpen}>
+            <Icon as={AiOutlineMenu} height="30px" w="30px" />
+          </Button>
+        )}
         <Heading>Notes</Heading>
         <DrawerNavigation isOpen={isOpen} onClose={onClose} />
       </HStack>

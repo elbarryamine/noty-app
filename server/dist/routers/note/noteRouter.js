@@ -7,15 +7,15 @@ const client_1 = require("@prisma/client");
 const userMiddleware_1 = require("../../middlewares/userMiddleware");
 const server_1 = require("@trpc/server");
 const prisma = new client_1.PrismaClient();
-const noteGetInput = zod_1.default.object({
+const noteGetSchema = zod_1.default.object({
     limit: zod_1.default.number().optional(),
 });
-const noteInput = zod_1.default
+const noteCreateSchema = zod_1.default
     .object({
     text: zod_1.default.string(),
     title: zod_1.default.string(),
     color: zod_1.default.string().optional(),
-    folderId: zod_1.default.string(),
+    folderId: zod_1.default.string().min(1, 'folderId is required'),
 })
     .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -41,7 +41,7 @@ const noteArchiveInput = zod_1.default.object({
 });
 const withUserProcedure = trpc_1.default.procedure.use(userMiddleware_1.isUser);
 exports.noteRouter = trpc_1.default.router({
-    get: withUserProcedure.input(noteGetInput).query(async ({ ctx, input }) => {
+    get: withUserProcedure.input(noteGetSchema).query(async ({ ctx, input }) => {
         var _a;
         try {
             const notes = await prisma.note.findMany({
@@ -95,7 +95,7 @@ exports.noteRouter = trpc_1.default.router({
         }
     }),
     create: withUserProcedure
-        .input(noteInput)
+        .input(noteCreateSchema)
         .mutation(async ({ ctx, input }) => {
         try {
             const note = await prisma.note.create({

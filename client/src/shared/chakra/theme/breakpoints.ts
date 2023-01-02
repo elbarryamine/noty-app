@@ -1,9 +1,7 @@
 export default {
-  xs: '20em',
-  sm: '30em',
-  md: '48em',
-  lg: '62em',
-  xl: '80em',
-  '2xl': '96em',
-  '3xl': '120em',
+  xs: '200px',
+  sm: '500px',
+  md: '800px',
+  lg: '1100px',
+  xl: '1400px',
 };

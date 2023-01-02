@@ -6,16 +6,16 @@ import { TRPCError } from '@trpc/server';
 
 const prisma = new PrismaClient();
 
-const noteGetInput = z.object({
+const noteGetSchema = z.object({
   limit: z.number().optional(),
 });
 
-const noteInput = z
+const noteCreateSchema = z
   .object({
     text: z.string(),
     title: z.string(),
     color: z.string().optional(),
-    folderId: z.string(),
+    folderId: z.string().min(1, 'folderId is required'),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -44,7 +44,7 @@ const noteArchiveInput = z.object({
 
 const withUserProcedure = trpc.procedure.use(isUser);
 export const noteRouter = trpc.router({
-  get: withUserProcedure.input(noteGetInput).query(async ({ ctx, input }) => {
+  get: withUserProcedure.input(noteGetSchema).query(async ({ ctx, input }) => {
     try {
       const notes = await prisma.note.findMany({
         where: { AND: { userId: ctx.user.id, isTrashed: false } },
@@ -97,7 +97,7 @@ export const noteRouter = trpc.router({
     }
   }),
   create: withUserProcedure
-    .input(noteInput)
+    .input(noteCreateSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         const note = await prisma.note.create({

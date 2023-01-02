@@ -8,25 +8,31 @@ const server_1 = require("@trpc/server");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const prisma = new client_1.PrismaClient();
-const signupInput = zod_1.default.object({
-    email: zod_1.default.string().email('Please provide a valid email'),
+const signupSchema = zod_1.default.object({
+    email: zod_1.default
+        .string()
+        .min(1, 'Email is required')
+        .email('Please provide a valid email'),
     firstName: zod_1.default
         .string()
-        .min(2, 'First name must be at least 2 character')
+        .min(3, 'First name must be at least 3 character')
         .max(18, 'First name must be at most 18 character'),
     lastName: zod_1.default
         .string()
-        .min(2, 'Last name must be at least 2 character')
+        .min(3, 'Last name must be at least 3 character')
         .max(18, 'Last name must be at most 18 character'),
-    password: zod_1.default.string(),
+    password: zod_1.default.string().min(8, 'Password must be at least 8 characters'),
 });
-const loginInput = zod_1.default.object({
-    email: zod_1.default.string().email('Please provide a valid email'),
-    password: zod_1.default.string(),
+const loginSchema = zod_1.default.object({
+    email: zod_1.default
+        .string()
+        .min(1, 'email is required')
+        .email('Please provide a valid email'),
+    password: zod_1.default.string().min(1, 'password is required'),
 });
 exports.userRouter = trpc_1.default.router({
     login: trpc_1.default.procedure
-        .input(loginInput)
+        .input(loginSchema)
         .mutation(async ({ input }) => {
         try {
             const user = await prisma.user.findUnique({
@@ -55,7 +61,7 @@ exports.userRouter = trpc_1.default.router({
             });
         }
     }),
-    sigunp: trpc_1.default.procedure.input(signupInput).mutation(async ({ input }) => {
+    sigunp: trpc_1.default.procedure.input(signupSchema).mutation(async ({ input }) => {
         try {
             const user = await prisma.user.findFirst({
                 where: { email: input.email },

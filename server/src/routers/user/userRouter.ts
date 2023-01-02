@@ -7,27 +7,33 @@ import * as jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-const signupInput = z.object({
-  email: z.string().email('Please provide a valid email'),
+const signupSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please provide a valid email'),
   firstName: z
     .string()
-    .min(2, 'First name must be at least 2 character')
+    .min(3, 'First name must be at least 3 character')
     .max(18, 'First name must be at most 18 character'),
   lastName: z
     .string()
-    .min(2, 'Last name must be at least 2 character')
+    .min(3, 'Last name must be at least 3 character')
     .max(18, 'Last name must be at most 18 character'),
-  password: z.string(),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-const loginInput = z.object({
-  email: z.string().email('Please provide a valid email'),
-  password: z.string(),
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'email is required')
+    .email('Please provide a valid email'),
+  password: z.string().min(1, 'password is required'),
 });
 
 export const userRouter = trpc.router({
   login: trpc.procedure
-    .input(loginInput)
+    .input(loginSchema)
     .mutation(async ({ input }): Promise<{ token: string }> => {
       try {
         // find user by email
@@ -62,7 +68,7 @@ export const userRouter = trpc.router({
         });
       }
     }),
-  sigunp: trpc.procedure.input(signupInput).mutation(async ({ input }) => {
+  sigunp: trpc.procedure.input(signupSchema).mutation(async ({ input }) => {
     try {
       const user = await prisma.user.findFirst({
         where: { email: input.email },

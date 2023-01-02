@@ -7,7 +7,7 @@
     "watch": "npx tsc -w",
     "start:watch": "nodemon dist/index.js",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npm run build\" \"npm run start:watch\"",
+    "dev": "concurrently \"npm run watch\" \"npm run start:watch\"",
     "start:prod": "concurrently \"npm run prisma:migrate\" \"npm run start:watch\""
   },
   "dependencies": {

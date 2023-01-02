@@ -1,9 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
-import ActionsNavigationLayout from '@components/layouts/ActionsNavigationLayout';
+import NavigationLayout from '@components/layouts/NavigationLayout';
 import Folder from '@layouts/folder';
+import { useRouter } from 'next/router';
+import Preloader from '@components/layouts/Preloader';
 
 const FolderPage = () => {
+  const router = useRouter();
+  if (!router?.query?.id || typeof router?.query?.id !== 'string') {
+    return <Preloader />;
+  }
   return (
     <>
       <Head>
@@ -12,9 +18,9 @@ const FolderPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ActionsNavigationLayout>
+      <NavigationLayout withSubHeader>
         <Folder />
-      </ActionsNavigationLayout>
+      </NavigationLayout>
     </>
   );
 };

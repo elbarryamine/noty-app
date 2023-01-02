@@ -7,38 +7,41 @@ const client_1 = require("@prisma/client");
 const userMiddleware_1 = require("../../middlewares/userMiddleware");
 const server_1 = require("@trpc/server");
 const prisma = new client_1.PrismaClient();
-const folderCreateInput = zod_1.default.object({
-    name: zod_1.default.string(),
+const folderCreateSchema = zod_1.default.object({
+    name: zod_1.default
+        .string()
+        .min(1, 'Folder name must be more than 3 letters')
+        .max(255, 'Folder name must be less than 255 letters'),
     icon: zod_1.default.string().optional(),
 });
-const folderFindInput = zod_1.default.object({
-    id: zod_1.default.string(),
+const folderFindSchema = zod_1.default.object({
+    id: zod_1.default.string().min(1, 'id is required'),
 });
-const folderDeleteInput = zod_1.default.object({
-    id: zod_1.default.string(),
+const folderDeleteSchema = zod_1.default.object({
+    id: zod_1.default.string().min(1, 'id is required'),
 });
 const withUserProcedure = trpc_1.default.procedure.use(userMiddleware_1.isUser);
 exports.folderRouter = trpc_1.default.router({
     getById: withUserProcedure
-        .input(folderFindInput)
+        .input(folderFindSchema)
         .query(async ({ ctx, input }) => {
         try {
-            return await prisma.folder.findFirst({
+            const folder = await prisma.folder.findFirst({
                 where: {
                     AND: {
                         id: input.id,
                         userId: ctx.user.id,
-                        notes: {
-                            every: {
-                                isTrashed: false,
-                            },
-                        },
                     },
                 },
                 include: {
-                    notes: true,
+                    notes: {
+                        where: {
+                            isTrashed: false,
+                        },
+                    },
                 },
             });
+            return folder;
         }
         catch (e) {
             throw new server_1.TRPCError({
@@ -69,7 +72,7 @@ exports.folderRouter = trpc_1.default.router({
         }
     }),
     create: withUserProcedure
-        .input(folderCreateInput)
+        .input(folderCreateSchema)
         .mutation(async ({ ctx, input }) => {
         try {
             const folders = await prisma.folder.create({
@@ -93,7 +96,7 @@ exports.folderRouter = trpc_1.default.router({
         }
     }),
     delete: withUserProcedure
-        .input(folderDeleteInput)
+        .input(folderDeleteSchema)
         .mutation(async ({ ctx, input }) => {
         try {
             const folder = await prisma.folder.findFirst({

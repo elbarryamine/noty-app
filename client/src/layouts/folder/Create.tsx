@@ -10,25 +10,32 @@ import {
   Grid,
   SlideFade,
   Box,
+  HStack,
 } from '@chakra-ui/react';
 import BaseContainer from '@components/containers/BaseContainer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { appIcons } from '@shared/constants/icons';
+import useBreakpoints from '@shared/hooks/useBreakpoints';
 import { trpc } from '@shared/utils/trpc/trpc';
 import { useQueryClient } from '@tanstack/react-query';
+import { TRPCClientError } from '@trpc/client';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { IconType } from 'react-icons';
 import z from 'zod';
 
-const folderInput = z.object({
-  name: z.string(),
+const folderCreateSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Folder name must be more than 3 letters')
+    .max(255, 'Folder name must be less than 255 letters'),
 });
 
-type Folder = typeof folderInput._type;
+type Folder = typeof folderCreateSchema._type;
 
 export default function Create() {
+  const { ltmd, ltlg } = useBreakpoints();
   const [search, setSearch] = useState('');
   const [icon, setIcon] = useState<{
     icon: IconType;
@@ -43,7 +50,7 @@ export default function Create() {
     },
   });
   const { control, handleSubmit } = useForm({
-    resolver: zodResolver(folderInput),
+    resolver: zodResolver(folderCreateSchema),
     defaultValues: { name: '' },
   });
   const handleSaveFolder = (values: Folder) => {
@@ -57,7 +64,7 @@ export default function Create() {
             control={control}
             name="name"
             render={({ field, fieldState }) => (
-              <FormControl>
+              <FormControl isInvalid={!!fieldState.error}>
                 <Input
                   value={field.value}
                   onChange={field.onChange}
@@ -82,20 +89,28 @@ export default function Create() {
         </Flex>
 
         <FormControl isInvalid={folderCreate.isError}>
-          <FormErrorMessage>{folderCreate.error?.message}</FormErrorMessage>
+          {folderCreate?.error instanceof TRPCClientError && (
+            <FormErrorMessage>{folderCreate.error.message}</FormErrorMessage>
+          )}
         </FormControl>
       </Stack>
       <Stack spacing={5} w="full">
         <Text variant="display">Folder's icon</Text>
-        <Flex pos="relative">
-          <Stack flex="0 0 40%">
+        <HStack spacing={3}>
+          <Stack>
             <Input
               placeholder="Search for icon"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
             <Grid
-              templateColumns={'repeat(15,1fr)'}
+              templateColumns={
+                ltmd
+                  ? 'repeat(5,1fr)'
+                  : ltlg
+                  ? 'repeat(10,1fr)'
+                  : 'repeat(15,1fr)'
+              }
               gridGap="10px"
               position="relative"
             >
@@ -122,22 +137,25 @@ export default function Create() {
                 ))}
             </Grid>
           </Stack>
-          <Box flex="1" position="fixed" right="0" top="50%" w="50%" h="100%">
+          <Box w="40px" />
+          <Flex justify="center" pt="5%" flex="1" h="100%">
             <SlideFade in={true} delay={0.5} offsetX="-30px">
               <Flex justify="center" align="center">
                 <Stack alignItems="center">
-                  <Text textAlign="center">{icon.name.replace('Fi', '')}</Text>
+                  <Text textAlign="center" fontSize={ltmd ? 'body' : 'display'}>
+                    {icon.name.replace('Fi', '')}
+                  </Text>
                   <Icon
                     strokeWidth="0.8px"
-                    height="300px"
-                    width="300px"
+                    height={ltmd ? '80px' : '200px'}
+                    width={ltmd ? '80px' : '200px'}
                     as={icon.icon}
                   />
                 </Stack>
               </Flex>
             </SlideFade>
-          </Box>
-        </Flex>
+          </Flex>
+        </HStack>
       </Stack>
     </BaseContainer>
   );

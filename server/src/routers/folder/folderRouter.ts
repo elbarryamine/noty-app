@@ -6,41 +6,44 @@ import { TRPCError } from '@trpc/server';
 
 const prisma = new PrismaClient();
 
-const folderCreateInput = z.object({
-  name: z.string(),
+const folderCreateSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Folder name must be more than 3 letters')
+    .max(255, 'Folder name must be less than 255 letters'),
   icon: z.string().optional(),
 });
 
-const folderFindInput = z.object({
-  id: z.string(),
+const folderFindSchema = z.object({
+  id: z.string().min(1, 'id is required'),
 });
 
-const folderDeleteInput = z.object({
-  id: z.string(),
+const folderDeleteSchema = z.object({
+  id: z.string().min(1, 'id is required'),
 });
 
 const withUserProcedure = trpc.procedure.use(isUser);
 export const folderRouter = trpc.router({
   getById: withUserProcedure
-    .input(folderFindInput)
+    .input(folderFindSchema)
     .query(async ({ ctx, input }) => {
       try {
-        return await prisma.folder.findFirst({
+        const folder = await prisma.folder.findFirst({
           where: {
             AND: {
               id: input.id,
               userId: ctx.user.id,
-              notes: {
-                every: {
-                  isTrashed: false,
-                },
-              },
             },
           },
           include: {
-            notes: true,
+            notes: {
+              where: {
+                isTrashed: false,
+              },
+            },
           },
         });
+        return folder;
       } catch (e: unknown) {
         throw new TRPCError({
           code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
@@ -70,7 +73,7 @@ export const folderRouter = trpc.router({
   }),
 
   create: withUserProcedure
-    .input(folderCreateInput)
+    .input(folderCreateSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         const folders = await prisma.folder.create({
@@ -94,7 +97,7 @@ export const folderRouter = trpc.router({
       }
     }),
   delete: withUserProcedure
-    .input(folderDeleteInput)
+    .input(folderDeleteSchema)
     .mutation(async ({ ctx, input }) => {
       try {
         const folder = await prisma.folder.findFirst({
