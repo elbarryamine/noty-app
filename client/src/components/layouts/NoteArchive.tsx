@@ -2,7 +2,7 @@ import React from 'react';
 import { trpc } from '@shared/utils/trpc/trpc';
 import { useQueryClient } from '@tanstack/react-query';
 import {
-  CategoryGetByIdResponse,
+  FolderGetByIdResponse,
   NoteGetResponse,
 } from '@shared/utils/trpc/types';
 import { Button } from '@chakra-ui/button';
@@ -20,8 +20,8 @@ const NoteArchive = ({ note }: { note: NoteGetResponse[number] }) => {
           { ...note, isArchived: !note.isArchived },
         ],
       );
-      queryClient.setQueryData<CategoryGetByIdResponse>(
-        trpc.category.getById.getQueryKey({ id: note.categoryId }),
+      queryClient.setQueryData<FolderGetByIdResponse>(
+        trpc.folder.getById.getQueryKey({ id: note.folderId }),
         (data) => {
           if (!data) return data;
           const notes = [
@@ -35,7 +35,7 @@ const NoteArchive = ({ note }: { note: NoteGetResponse[number] }) => {
     onSuccess: () => {
       queryClient.invalidateQueries(trpc.note.getFavorite.getQueryKey());
       queryClient.invalidateQueries(
-        trpc.category.getById.getQueryKey({ id: note.categoryId }),
+        trpc.folder.getById.getQueryKey({ id: note.folderId }),
       );
     },
   });

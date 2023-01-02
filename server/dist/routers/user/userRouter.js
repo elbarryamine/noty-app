@@ -25,15 +25,25 @@ const loginInput = zod_1.default.object({
     password: zod_1.default.string(),
 });
 exports.userRouter = trpc_1.default.router({
-    login: trpc_1.default.procedure.input(loginInput).mutation(async ({ input }) => {
+    login: trpc_1.default.procedure
+        .input(loginInput)
+        .mutation(async ({ input }) => {
         try {
-            const user = await prisma.user.findUnique({ where: { email: input.email } });
+            const user = await prisma.user.findUnique({
+                where: { email: input.email },
+            });
             if (!user) {
-                throw new server_1.TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
+                throw new server_1.TRPCError({
+                    message: 'email or password is incorrect',
+                    code: 'INTERNAL_SERVER_ERROR',
+                });
             }
             const matchPass = await bcrypt.compare(input.password, user.password);
             if (!matchPass)
-                throw new server_1.TRPCError({ message: 'email or password is incorrect', code: 'INTERNAL_SERVER_ERROR' });
+                throw new server_1.TRPCError({
+                    message: 'email or password is incorrect',
+                    code: 'INTERNAL_SERVER_ERROR',
+                });
             const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
             return { token: accessToken };
         }
@@ -47,9 +57,14 @@ exports.userRouter = trpc_1.default.router({
     }),
     sigunp: trpc_1.default.procedure.input(signupInput).mutation(async ({ input }) => {
         try {
-            const user = await prisma.user.findFirst({ where: { email: input.email } });
+            const user = await prisma.user.findFirst({
+                where: { email: input.email },
+            });
             if (user)
-                throw new server_1.TRPCError({ message: 'user with this email already exist', code: 'INTERNAL_SERVER_ERROR' });
+                throw new server_1.TRPCError({
+                    message: 'user with this email already exist',
+                    code: 'INTERNAL_SERVER_ERROR',
+                });
             const hashedPassword = await bcrypt.hash(input.password, 10);
             const savedUser = await prisma.user.create({
                 data: {
@@ -59,23 +74,23 @@ exports.userRouter = trpc_1.default.router({
                     password: hashedPassword,
                 },
             });
-            const notesCategorie = await prisma.category.create({
+            const notesCategorie = await prisma.folder.create({
                 data: { userId: savedUser.id, name: 'Notes' },
             });
-            const tasksCategorie = await prisma.category.create({
+            const tasksCategorie = await prisma.folder.create({
                 data: { userId: savedUser.id, name: 'Tasks' },
             });
-            await prisma.noty.createMany({
+            await prisma.note.createMany({
                 data: [
                     {
                         userId: savedUser.id,
-                        categoryId: notesCategorie.id,
+                        folderId: notesCategorie.id,
                         text: 'Note',
                         title: 'My Note',
                     },
                     {
                         userId: savedUser.id,
-                        categoryId: tasksCategorie.id,
+                        folderId: tasksCategorie.id,
                         text: 'Task',
                         title: 'My Task',
                     },

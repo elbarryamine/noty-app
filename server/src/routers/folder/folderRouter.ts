@@ -6,28 +6,26 @@ import { TRPCError } from '@trpc/server';
 
 const prisma = new PrismaClient();
 
-const categoryInput = z.object({
-  id: z.string(),
+const folderCreateInput = z.object({
   name: z.string(),
-  userId: z.number(),
-  createdAt: z.date(),
+  icon: z.string().optional(),
 });
 
-const categoryFind = z.object({
+const folderFindInput = z.object({
   id: z.string(),
 });
 
-const categoryDeleteInput = z.object({
+const folderDeleteInput = z.object({
   id: z.string(),
 });
 
 const withUserProcedure = trpc.procedure.use(isUser);
-export const categoryRouter = trpc.router({
+export const folderRouter = trpc.router({
   getById: withUserProcedure
-    .input(categoryFind)
+    .input(folderFindInput)
     .query(async ({ ctx, input }) => {
       try {
-        return await prisma.category.findFirst({
+        return await prisma.folder.findFirst({
           where: {
             AND: {
               id: input.id,
@@ -46,15 +44,14 @@ export const categoryRouter = trpc.router({
       } catch (e: unknown) {
         throw new TRPCError({
           code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
-          message:
-            e instanceof TRPCError ? e.message : 'could not get categorie',
+          message: e instanceof TRPCError ? e.message : 'could not get folder',
           cause: e,
         });
       }
     }),
   get: withUserProcedure.query(async ({ ctx }) => {
     try {
-      const categories = await prisma.category.findMany({
+      const folders = await prisma.folder.findMany({
         where: {
           AND: { userId: ctx.user.id },
         },
@@ -62,56 +59,56 @@ export const categoryRouter = trpc.router({
           notes: true,
         },
       });
-      return categories;
+      return folders;
     } catch (e: unknown) {
       throw new TRPCError({
         code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
-        message:
-          e instanceof TRPCError ? e.message : 'could not get categories',
+        message: e instanceof TRPCError ? e.message : 'could not get folders',
         cause: e,
       });
     }
   }),
 
   create: withUserProcedure
-    .input(categoryInput)
+    .input(folderCreateInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const categories = await prisma.category.create({
+        const folders = await prisma.folder.create({
           data: {
             name: input.name,
+            icon: input.icon,
             userId: ctx.user.id,
           },
           include: {
             notes: true,
           },
         });
-        return categories;
+        return folders;
       } catch (e: unknown) {
         throw new TRPCError({
           code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
           message:
-            e instanceof TRPCError ? e.message : 'could not create category',
+            e instanceof TRPCError ? e.message : 'could not create folder',
           cause: e,
         });
       }
     }),
   delete: withUserProcedure
-    .input(categoryDeleteInput)
+    .input(folderDeleteInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const category = await prisma.category.findFirst({
+        const folder = await prisma.folder.findFirst({
           where: { id: input.id },
         });
-        if (!category) {
+        if (!folder) {
           throw new TRPCError({
             code: 'NOT_FOUND',
-            message: 'could not find category',
+            message: 'could not find folder',
           });
         }
-        if (category.userId === ctx.user.id) {
-          await prisma.category.delete({ where: { id: category.id } });
-          return { category };
+        if (folder.userId === ctx.user.id) {
+          await prisma.folder.delete({ where: { id: folder.id } });
+          return { folder };
         } else {
           throw new TRPCError({
             code: 'FORBIDDEN',
@@ -122,7 +119,7 @@ export const categoryRouter = trpc.router({
         throw new TRPCError({
           code: e instanceof TRPCError ? e.code : 'INTERNAL_SERVER_ERROR',
           message:
-            e instanceof TRPCError ? e.message : 'could not delete category',
+            e instanceof TRPCError ? e.message : 'could not delete folder',
           cause: e,
         });
       }

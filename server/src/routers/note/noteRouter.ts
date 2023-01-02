@@ -15,7 +15,7 @@ const noteInput = z
     text: z.string(),
     title: z.string(),
     color: z.string().optional(),
-    categoryId: z.string(),
+    folderId: z.string(),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -46,7 +46,7 @@ const withUserProcedure = trpc.procedure.use(isUser);
 export const noteRouter = trpc.router({
   get: withUserProcedure.input(noteGetInput).query(async ({ ctx, input }) => {
     try {
-      const notes = await prisma.noty.findMany({
+      const notes = await prisma.note.findMany({
         where: { AND: { userId: ctx.user.id, isTrashed: false } },
         take: input.limit ?? undefined,
       });
@@ -62,7 +62,7 @@ export const noteRouter = trpc.router({
   }),
   getTrash: withUserProcedure.query(async ({ ctx }) => {
     try {
-      const notes = await prisma.noty.findMany({
+      const notes = await prisma.note.findMany({
         where: { AND: { userId: ctx.user.id, isTrashed: true } },
       });
       return notes;
@@ -79,7 +79,7 @@ export const noteRouter = trpc.router({
   }),
   getFavorite: withUserProcedure.query(async ({ ctx }) => {
     try {
-      const notes = await prisma.noty.findMany({
+      const notes = await prisma.note.findMany({
         where: {
           AND: { userId: ctx.user.id, isArchived: true, isTrashed: false },
         },
@@ -100,13 +100,13 @@ export const noteRouter = trpc.router({
     .input(noteInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const note = await prisma.noty.create({
+        const note = await prisma.note.create({
           data: {
             text: input.text,
             title: input.title,
             color: input.color,
             userId: ctx.user.id,
-            categoryId: input.categoryId,
+            folderId: input.folderId,
           },
         });
         return note;
@@ -123,7 +123,7 @@ export const noteRouter = trpc.router({
     .input(noteDeleteInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const note = await prisma.noty.findFirst({ where: { id: input.id } });
+        const note = await prisma.note.findFirst({ where: { id: input.id } });
         if (!note) {
           throw new TRPCError({
             code: 'NOT_FOUND',
@@ -131,7 +131,7 @@ export const noteRouter = trpc.router({
           });
         }
         if (note.userId === ctx.user.id) {
-          await prisma.noty.delete({ where: { id: note.id } });
+          await prisma.note.delete({ where: { id: note.id } });
           return { note };
         } else {
           throw new TRPCError({
@@ -151,7 +151,7 @@ export const noteRouter = trpc.router({
     .input(noteArchiveInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const note = await prisma.noty.findFirst({ where: { id: input.id } });
+        const note = await prisma.note.findFirst({ where: { id: input.id } });
         if (!note) {
           throw new TRPCError({
             code: 'NOT_FOUND',
@@ -159,10 +159,10 @@ export const noteRouter = trpc.router({
           });
         }
         if (note.userId === ctx.user.id) {
-          const updatedNote = await prisma.noty.update({
+          const updatedNote = await prisma.note.update({
             where: { id: note.id },
             data: { isArchived: input.isArchived },
-            include: { category: true },
+            include: { folder: true },
           });
           return {
             note: updatedNote,
@@ -186,7 +186,7 @@ export const noteRouter = trpc.router({
     .input(noteDeleteInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const note = await prisma.noty.findFirst({ where: { id: input.id } });
+        const note = await prisma.note.findFirst({ where: { id: input.id } });
         if (!note) {
           throw new TRPCError({
             code: 'NOT_FOUND',
@@ -194,7 +194,7 @@ export const noteRouter = trpc.router({
           });
         }
         if (note.userId === ctx.user.id) {
-          await prisma.noty.update({
+          await prisma.note.update({
             where: { id: note.id },
             data: { isTrashed: !input.isRestore },
           });

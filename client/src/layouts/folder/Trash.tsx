@@ -4,30 +4,26 @@ import Preloader from '@components/layouts/Preloader';
 import { trpc } from '@shared/utils/trpc/trpc';
 import NoteCard from '@components/layouts/NoteCard';
 import NotesContainer from '@components/containers/NotesContainer';
+import BaseContainer from '@components/containers/BaseContainer';
+import NoMatchesFound from '@components/elements/NoMatchesFound';
 
-function Favorite() {
-  const favorite = trpc.note.getFavorite.useQuery();
+function Trash() {
+  const trash = trpc.note.getTrash.useQuery();
 
-  if (favorite.isLoading) return <Preloader />;
+  if (trash.isLoading) return <Preloader />;
   return (
-    <Stack
-      spacing={10}
-      px="40px"
-      py="20px"
-      pb="50px"
-      overflowY="scroll"
-      h="100%"
-    >
+    <BaseContainer>
       <Stack spacing={5}>
-        <Text variant="subheader">Favorite</Text>
+        <Text variant="subheader">Trash</Text>
+        {trash.data?.length === 0 && <NoMatchesFound />}
         <NotesContainer>
-          {favorite.data?.map((note) => (
+          {trash.data?.map((note) => (
             <NoteCard key={note.id} note={note} />
           ))}
         </NotesContainer>
       </Stack>
-    </Stack>
+    </BaseContainer>
   );
 }
 
-export default Favorite;
+export default Trash;

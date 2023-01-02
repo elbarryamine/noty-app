@@ -15,7 +15,7 @@ const NoteDelete = ({
   const moveToTrash = trpc.note.trash.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(
-        trpc.category.getById.getQueryKey({ id: note.categoryId }),
+        trpc.folder.getById.getQueryKey({ id: note.folderId }),
       );
       queryClient.invalidateQueries(trpc.note.getFavorite.getQueryKey());
       queryClient.invalidateQueries(trpc.note.getTrash.getQueryKey());

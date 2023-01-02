@@ -15,7 +15,7 @@ const noteInput = zod_1.default
     text: zod_1.default.string(),
     title: zod_1.default.string(),
     color: zod_1.default.string().optional(),
-    categoryId: zod_1.default.string(),
+    folderId: zod_1.default.string(),
 })
     .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -44,7 +44,7 @@ exports.noteRouter = trpc_1.default.router({
     get: withUserProcedure.input(noteGetInput).query(async ({ ctx, input }) => {
         var _a;
         try {
-            const notes = await prisma.noty.findMany({
+            const notes = await prisma.note.findMany({
                 where: { AND: { userId: ctx.user.id, isTrashed: false } },
                 take: (_a = input.limit) !== null && _a !== void 0 ? _a : undefined,
             });
@@ -60,7 +60,7 @@ exports.noteRouter = trpc_1.default.router({
     }),
     getTrash: withUserProcedure.query(async ({ ctx }) => {
         try {
-            const notes = await prisma.noty.findMany({
+            const notes = await prisma.note.findMany({
                 where: { AND: { userId: ctx.user.id, isTrashed: true } },
             });
             return notes;
@@ -77,7 +77,7 @@ exports.noteRouter = trpc_1.default.router({
     }),
     getFavorite: withUserProcedure.query(async ({ ctx }) => {
         try {
-            const notes = await prisma.noty.findMany({
+            const notes = await prisma.note.findMany({
                 where: {
                     AND: { userId: ctx.user.id, isArchived: true, isTrashed: false },
                 },
@@ -98,13 +98,13 @@ exports.noteRouter = trpc_1.default.router({
         .input(noteInput)
         .mutation(async ({ ctx, input }) => {
         try {
-            const note = await prisma.noty.create({
+            const note = await prisma.note.create({
                 data: {
                     text: input.text,
                     title: input.title,
                     color: input.color,
                     userId: ctx.user.id,
-                    categoryId: input.categoryId,
+                    folderId: input.folderId,
                 },
             });
             return note;
@@ -121,7 +121,7 @@ exports.noteRouter = trpc_1.default.router({
         .input(noteDeleteInput)
         .mutation(async ({ ctx, input }) => {
         try {
-            const note = await prisma.noty.findFirst({ where: { id: input.id } });
+            const note = await prisma.note.findFirst({ where: { id: input.id } });
             if (!note) {
                 throw new server_1.TRPCError({
                     code: 'NOT_FOUND',
@@ -129,7 +129,7 @@ exports.noteRouter = trpc_1.default.router({
                 });
             }
             if (note.userId === ctx.user.id) {
-                await prisma.noty.delete({ where: { id: note.id } });
+                await prisma.note.delete({ where: { id: note.id } });
                 return { note };
             }
             else {
@@ -151,7 +151,7 @@ exports.noteRouter = trpc_1.default.router({
         .input(noteArchiveInput)
         .mutation(async ({ ctx, input }) => {
         try {
-            const note = await prisma.noty.findFirst({ where: { id: input.id } });
+            const note = await prisma.note.findFirst({ where: { id: input.id } });
             if (!note) {
                 throw new server_1.TRPCError({
                     code: 'NOT_FOUND',
@@ -159,10 +159,10 @@ exports.noteRouter = trpc_1.default.router({
                 });
             }
             if (note.userId === ctx.user.id) {
-                const updatedNote = await prisma.noty.update({
+                const updatedNote = await prisma.note.update({
                     where: { id: note.id },
                     data: { isArchived: input.isArchived },
-                    include: { category: true },
+                    include: { folder: true },
                 });
                 return {
                     note: updatedNote,
@@ -187,7 +187,7 @@ exports.noteRouter = trpc_1.default.router({
         .input(noteDeleteInput)
         .mutation(async ({ ctx, input }) => {
         try {
-            const note = await prisma.noty.findFirst({ where: { id: input.id } });
+            const note = await prisma.note.findFirst({ where: { id: input.id } });
             if (!note) {
                 throw new server_1.TRPCError({
                     code: 'NOT_FOUND',
@@ -195,7 +195,7 @@ exports.noteRouter = trpc_1.default.router({
                 });
             }
             if (note.userId === ctx.user.id) {
-                await prisma.noty.update({
+                await prisma.note.update({
                     where: { id: note.id },
                     data: { isTrashed: !input.isRestore },
                 });

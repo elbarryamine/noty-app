@@ -21,7 +21,7 @@ const noteInput = z
     text: z.string(),
     title: z.string(),
     color: z.string().min(1, 'Please select a valid color'),
-    categoryId: z.string(),
+    folderId: z.string(),
   })
   .superRefine(({ text, title }, ctx) => {
     if (!text && !title) {
@@ -39,11 +39,11 @@ const noteInput = z
   });
 
 const AddNewNoteForm = ({
-  categoryId,
+  folderId,
   onClose,
   isTask = false,
 }: {
-  categoryId: string;
+  folderId: string;
   onClose?: () => void;
   isTask?: boolean;
 }) => {
@@ -51,7 +51,7 @@ const AddNewNoteForm = ({
   const { mutate, isLoading, isError, error } = trpc.note.create.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(
-        trpc.category.getById.getQueryKey({ id: categoryId }),
+        trpc.folder.getById.getQueryKey({ id: folderId }),
       );
       onClose && onClose();
     },
@@ -63,7 +63,7 @@ const AddNewNoteForm = ({
       title: '',
       text: '',
       color: '#FFFFFF',
-      categoryId: categoryId,
+      folderId: folderId,
     },
   });
   const handleCreateNote = (values: NoteCreateInput) => {
@@ -71,8 +71,8 @@ const AddNewNoteForm = ({
   };
 
   useEffect(() => {
-    setValue('categoryId', categoryId);
-  }, [categoryId]);
+    setValue('folderId', folderId);
+  }, [folderId]);
   return (
     <Stack
       spacing={5}

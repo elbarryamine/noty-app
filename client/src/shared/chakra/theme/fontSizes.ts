@@ -3,6 +3,6 @@ export default {
   mono: '14px',
   body: '16px',
   subheader: '18px',
-  header: '20px',
-  display: '24px',
+  header: '25px',
+  display: '35px',
 };

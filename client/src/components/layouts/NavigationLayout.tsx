@@ -1,20 +1,5 @@
 import React, { ReactElement } from 'react';
-import {
-  Avatar,
-  Box,
-  Flex,
-  FormControl,
-  Grid,
-  Icon,
-  HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
-  Text,
-  Button,
-} from '@chakra-ui/react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { Avatar, Box, Flex, Grid, HStack, Stack, Text } from '@chakra-ui/react';
 import HeaderNavigation from './HeaderNavigation';
 import SideNavigation from './SideNavigation';
 
@@ -49,39 +34,17 @@ function NavigationLayout({
           <HeaderNavigation />
         </Stack>
         <SideNavigation />
-        <Grid
+        <Box
+          px="40px"
+          py="20px"
+          w="100%"
           h="100%"
           overflow="scroll"
           borderWidth="1px"
           borderColor="whitesmoke"
-          templateRows="80px 1fr"
         >
-          <HStack
-            px="40px"
-            py="20px"
-            w="100%"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <FormControl w="100%" maxW="300px" mx="5px">
-              <InputGroup>
-                <InputLeftElement
-                  px="10px"
-                  children={<Icon as={AiOutlineSearch} />}
-                />
-                <Input
-                  bg="bg"
-                  border="0"
-                  outline="0"
-                  rounded="md"
-                  placeholder="Search for notes"
-                />
-              </InputGroup>
-            </FormControl>
-            <Button variant="primary">Add new note</Button>
-          </HStack>
           {children}
-        </Grid>
+        </Box>
       </Grid>
     </Box>
   );

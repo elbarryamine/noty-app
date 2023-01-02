@@ -16,36 +16,55 @@ model User {
   lastName  String?
   email String  @unique
   password String
-  notes Noty[]
-  categories Category[]
+  notes Note[]
+  tasks Task[]
+  folders Folder[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 
 
-model Noty {
+model Note {
   id  String @id @default(uuid())
   title String
   text String
   color String @default("#FFFFFF")
+  isPinned Boolean @default(false)
   isTrashed Boolean @default(false)
   isArchived Boolean @default(false)
-  isTask Boolean @default(false)
-  isCompleted Boolean @default(false)
   image String @default("")
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String
+  folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Category {
+model Task {
+  id  String @id @default(uuid())
+  title String
+  text String
+  color String @default("#FFFFFF")
+  isPinned Boolean @default(false)
+  isTrashed Boolean @default(false)
+  isArchived Boolean @default(false)
+  image String @default("")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Folder {
   id  String @id @default(uuid())
   name String
-  notes Noty[]
+  icon String?
+  notes Note[]
+  tasks Task[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
   createdAt DateTime @default(now())

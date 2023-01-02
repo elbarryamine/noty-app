@@ -45,7 +45,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, import(".prisma/client").Noty[]>;
+        }, import(".prisma/client").Note[]>;
         getTrash: import("@trpc/server").BuildProcedure<"query", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
@@ -69,7 +69,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _input_out: typeof import("@trpc/server").unsetMarker;
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, import(".prisma/client").Noty[]>;
+        }, import(".prisma/client").Note[]>;
         getFavorite: import("@trpc/server").BuildProcedure<"query", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
@@ -93,7 +93,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _input_out: typeof import("@trpc/server").unsetMarker;
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, import(".prisma/client").Noty[]>;
+        }, import(".prisma/client").Note[]>;
         create: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
@@ -117,17 +117,17 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
                 text?: string;
                 title?: string;
                 color?: string;
-                categoryId?: string;
+                folderId?: string;
             };
             _input_out: {
                 text?: string;
                 title?: string;
                 color?: string;
-                categoryId?: string;
+                folderId?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, import(".prisma/client").Noty>;
+        }, import(".prisma/client").Note>;
         delete: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
                 ctx: {
@@ -158,7 +158,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, {
-            note: import(".prisma/client").Noty;
+            note: import(".prisma/client").Note;
         }>;
         archive: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
@@ -190,8 +190,8 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, {
-            note: import(".prisma/client").Noty & {
-                category: import(".prisma/client").Category;
+            note: import(".prisma/client").Note & {
+                folder: import(".prisma/client").Folder;
             };
         }>;
         trash: import("@trpc/server").BuildProcedure<"mutation", {
@@ -224,7 +224,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, {
-            note: import(".prisma/client").Noty;
+            note: import(".prisma/client").Note;
         }>;
     }>;
     user: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
@@ -300,7 +300,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, void>;
     }>;
-    category: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
+    folder: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
         ctx: {
             user: {
                 id: string;
@@ -337,8 +337,8 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, import(".prisma/client").Category & {
-            notes: import(".prisma/client").Noty[];
+        }, import(".prisma/client").Folder & {
+            notes: import(".prisma/client").Note[];
         }>;
         get: import("@trpc/server").BuildProcedure<"query", {
             _config: import("@trpc/server").RootConfig<{
@@ -363,8 +363,8 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _input_out: typeof import("@trpc/server").unsetMarker;
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, (import(".prisma/client").Category & {
-            notes: import(".prisma/client").Noty[];
+        }, (import(".prisma/client").Folder & {
+            notes: import(".prisma/client").Note[];
         })[]>;
         create: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
@@ -386,21 +386,17 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
                 user: import(".prisma/client").User;
             }>;
             _input_in: {
-                id?: string;
-                userId?: number;
-                createdAt?: Date;
                 name?: string;
+                icon?: string;
             };
             _input_out: {
-                id?: string;
-                userId?: number;
-                createdAt?: Date;
                 name?: string;
+                icon?: string;
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, import(".prisma/client").Category & {
-            notes: import(".prisma/client").Noty[];
+        }, import(".prisma/client").Folder & {
+            notes: import(".prisma/client").Note[];
         }>;
         delete: import("@trpc/server").BuildProcedure<"mutation", {
             _config: import("@trpc/server").RootConfig<{
@@ -430,7 +426,7 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
         }, {
-            category: import(".prisma/client").Category;
+            folder: import(".prisma/client").Folder;
         }>;
     }>;
 }>;

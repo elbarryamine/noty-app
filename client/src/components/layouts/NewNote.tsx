@@ -7,10 +7,10 @@ import { Text, HStack, Box } from '@chakra-ui/layout';
 import { Icon } from '@chakra-ui/icon';
 
 const NewNote = ({
-  categoryId,
+  folderId,
   isTask,
 }: {
-  categoryId: string;
+  folderId: string;
   isTask?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +19,7 @@ const NewNote = ({
 
   useEffect(() => {
     onClose();
-  }, [categoryId]);
+  }, [folderId]);
 
   return (
     <Box position="relative">
@@ -36,7 +36,7 @@ const NewNote = ({
         </PopoverTrigger>
         <PopoverContent>
           <AddNewNoteForm
-            categoryId={categoryId}
+            folderId={folderId}
             onClose={onClose}
             isTask={isTask}
           />

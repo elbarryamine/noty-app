@@ -5,32 +5,28 @@ import { trpc } from '@shared/utils/trpc/trpc';
 import { useRouter } from 'next/router';
 import NoteCard from '@components/layouts/NoteCard';
 import NotesContainer from '@components/containers/NotesContainer';
+import BaseContainer from '@components/containers/BaseContainer';
+import NoMatchesFound from '@components/elements/NoMatchesFound';
 
-function Category() {
+function Folder() {
   const router = useRouter();
   const id = typeof router.query.id === 'string' ? router.query.id : '';
-  const category = trpc.category.getById.useQuery({ id });
+  const folder = trpc.folder.getById.useQuery({ id });
 
-  if (category.isLoading) return <Preloader />;
+  if (folder.isLoading) return <Preloader />;
   return (
-    <Stack
-      spacing={10}
-      px="40px"
-      py="20px"
-      pb="50px"
-      overflowY="scroll"
-      h="100%"
-    >
+    <BaseContainer>
       <Stack spacing={5}>
-        <Text variant="subheader">{category.data?.name}</Text>
+        <Text variant="subheader">{folder.data?.name}</Text>
+        {folder.data?.notes.length === 0 && <NoMatchesFound />}
         <NotesContainer>
-          {category.data?.notes.map((note) => (
+          {folder.data?.notes.map((note) => (
             <NoteCard key={note.id} note={note} />
           ))}
         </NotesContainer>
       </Stack>
-    </Stack>
+    </BaseContainer>
   );
 }
 
-export default Category;
+export default Folder;

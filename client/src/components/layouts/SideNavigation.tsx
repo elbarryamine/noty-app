@@ -1,26 +1,20 @@
-import { Box, Button, Icon, Stack } from '@chakra-ui/react';
+import { Box, Button, Icon, Skeleton, Stack } from '@chakra-ui/react';
 import { trpc } from '@shared/utils/trpc/trpc';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { BiNote, BiHome, BiTrash, BiBookBookmark } from 'react-icons/bi';
+import { BiHome, BiTrash, BiBookBookmark } from 'react-icons/bi';
+import FolderIcon from './FolderIcon';
 
 function SideNavigation() {
   const router = useRouter();
-  const categories = trpc.category.get.useQuery();
+  const folders = trpc.folder.get.useQuery();
   const id = router?.query?.id;
   const isBoard = router.pathname === '/';
-  const isTrash = router.pathname === '/category/trash';
-  const isFavorite = router.pathname === '/category/favorite';
+  const isTrash = router.pathname === '/folder/trash';
+  const isFavorite = router.pathname === '/folder/favorite';
   return (
     <Box bg="bg" borderWidth="1px" borderColor="whitesmoke" h="full">
-      <Stack
-        spacing={2}
-        flexWrap="wrap"
-        p="20px"
-        h="full"
-        maxH="500px"
-        justifyContent="center"
-      >
+      <Stack spacing={2} flexWrap="wrap" p="20px" justifyContent="center">
         <Button
           color={isBoard ? 'primaryText' : 'primaryGrayColor'}
           leftIcon={
@@ -38,36 +32,32 @@ function SideNavigation() {
         >
           dashboard
         </Button>
-        {(categories.data ?? []).map((el) => {
-          const isActive = id === el.id.toLowerCase();
-          return (
-            <Button
-              color={isActive ? 'primaryText' : 'primaryGrayColor'}
-              leftIcon={
-                <Icon
-                  fill={isActive ? 'primaryText' : 'primaryGrayColor'}
-                  as={BiNote}
-                />
-              }
-              justifyContent="start"
-              alignItems="center"
-              onClick={() => router.push(`/category/${el.id}`)}
-              key={el.id}
-              variant={isActive ? 'primary' : 'ghost'}
-              textTransform="capitalize"
-              borderRadius="5px"
-            >
-              {el.name}
-            </Button>
-          );
+        {folders.isLoading &&
+          Array.from({ length: 5 }).map((_, i) => <Skeleton h="10" key={i} />)}
+        {(folders.data ?? []).map((fld) => {
+          const isActive = id === fld.id.toLowerCase();
+          return <FolderIcon folder={fld} isActive={isActive} />;
         })}
+        <Button
+          variant="outline"
+          color="primary"
+          borderWidth="2px"
+          borderColor="primary"
+          borderStyle="dashed"
+          onClick={() => router.push('/folder/new')}
+        >
+          Add New Folder
+        </Button>
+      </Stack>
+      <Box h="1px" w="100%" bg="blackAlpha.300" />
+      <Stack spacing={2} flexWrap="wrap" p="20px" justifyContent="center">
         <Button
           colorScheme="red"
           color={isTrash ? 'white' : 'red.500'}
           leftIcon={<Icon fill={isTrash ? 'white' : 'red.500'} as={BiTrash} />}
           justifyContent="start"
           alignItems="center"
-          onClick={() => router.push('/category/trash')}
+          onClick={() => router.push('/folder/trash')}
           variant={isTrash ? 'solid' : 'ghost'}
           textTransform="capitalize"
           borderRadius="5px"
@@ -85,7 +75,7 @@ function SideNavigation() {
           }
           justifyContent="start"
           alignItems="center"
-          onClick={() => router.push('/category/favorite')}
+          onClick={() => router.push('/folder/favorite')}
           variant={isFavorite ? 'solid' : 'ghost'}
           textTransform="capitalize"
           borderRadius="5px"

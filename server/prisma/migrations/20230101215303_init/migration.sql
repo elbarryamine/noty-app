@@ -23,7 +23,7 @@ CREATE TABLE "Noty" (
     "isCompleted" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT NOT NULL DEFAULT '',
     "userId" INTEGER NOT NULL,
-    "categoryId" INTEGER NOT NULL,
+    "folderId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -31,13 +31,13 @@ CREATE TABLE "Noty" (
 );
 
 -- CreateTable
-CREATE TABLE "Category" (
+CREATE TABLE "Folder" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Folder_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -47,7 +47,7 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 ALTER TABLE "Noty" ADD CONSTRAINT "Noty_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Noty" ADD CONSTRAINT "Noty_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Noty" ADD CONSTRAINT "Noty_folderId_fkey" FOREIGN KEY ("folderId") REFERENCES "Folder"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Category" ADD CONSTRAINT "Category_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Folder" ADD CONSTRAINT "Folder_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
