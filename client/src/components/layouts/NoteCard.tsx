@@ -8,10 +8,12 @@ import { Menu, MenuButton, MenuList } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icon';
 import { BsThreeDots } from 'react-icons/bs';
 import NoteDelete from './NoteDelete';
+import moment from 'moment';
 
 export default function NoteCard({ note }: { note: NoteGetResponse[number] }) {
   const invertedColor = hexContrastColor(note.color);
-
+  let whenAdded = moment(note.createdAt).local().fromNow();
+  whenAdded = whenAdded[0].toUpperCase() + whenAdded.slice(1);
   return (
     <Box
       cursor="pointer"
@@ -24,7 +26,7 @@ export default function NoteCard({ note }: { note: NoteGetResponse[number] }) {
     >
       <Stack>
         <Flex justify="space-between" align="center" w="full">
-          <Text variant="sub">27th April, 2023</Text>
+          <Text variant="sub">{whenAdded}</Text>
           <HStack spacing={2}>
             <NoteArchive note={note} />
             <Menu>
