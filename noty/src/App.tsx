@@ -1,8 +1,10 @@
+import {NavigationContainer} from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {NativeBaseProvider} from 'native-base';
 import React, {useState} from 'react';
-import {View} from 'react-native';
-import {useTrpc, trpc} from './shared/utils/trpc/trpc';
-import {useUserStore} from './store/user';
+import Navigation from '@navigation/Navigation';
+import {useTrpc, trpc} from '@shared/utils/trpc/trpc';
+import {useUserStore} from '@shared/store/user';
 
 const App = () => {
   const token = useUserStore(state => state.token);
@@ -10,11 +12,15 @@ const App = () => {
   const {trpcClient} = useTrpc(token ?? undefined);
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <View />
-      </QueryClientProvider>
-    </trpc.Provider>
+    <NavigationContainer>
+      <NativeBaseProvider>
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <Navigation />
+          </QueryClientProvider>
+        </trpc.Provider>
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 };
 
